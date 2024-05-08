@@ -22,7 +22,6 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -64,14 +63,15 @@ const Login = () => {
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       navigate("/chats");
+
     } catch (error) {
-      toast.error("Error Occurred!");
-      // console.log(error);
-      console.log(error.response.data.message);
+      const ErrorMessage = error.response.data.message;
+      console.log(ErrorMessage);
+      toast.error(ErrorMessage);
+      
       setLoading(false);
     }
   };
-
 
   return (
     <form onSubmit={handleLogin}>

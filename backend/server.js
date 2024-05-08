@@ -5,6 +5,7 @@ require('dotenv').config();
 const { chats } = require("./data/data"); // fakeDate
 // const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const userRoutes = require("./routes/userRoutes");
+const chatRoutes = require("./routes/chatRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -30,7 +31,8 @@ app.get('/', (req, res) => {
     res.send(`API is running on PORT ${PORT}`)
 });
 
-app.use('/api/user', userRoutes)
+app.use('/api/user', userRoutes);
+app.use('/api/chat', chatRoutes);
 
 
 
