@@ -1,0 +1,18 @@
+** accessChat **
+role: one to one
+api: (POST) http://localhost:5000/api/chat
+1. accessChat is a one to one chat.
+2. It's understand a login user by his token on localhost.
+3. This function added an user (one to one chat) by given a object(property an userId) from api.
+
+** fetchChats **
+role: A single user's all conversation.
+api: (GET) http://localhost:5000/api/chat
+1. All conversation of one to one chat by clicking member on frontend.
+
+** createGroupChat **
+role: Create a group chat by selecting members.
+api: (POST) http://localhost:5000/api/chat/group
+1. To click New Group Chat from frontend, it's take two fields (Chat name, Add users)
+2. This function takes the following fields (array of selected users (on json to stringify formate), name(string value)) from body by post request.
+

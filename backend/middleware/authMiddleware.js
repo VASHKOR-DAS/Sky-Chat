@@ -6,7 +6,7 @@ const asyncHandler = require("express-async-handler");
 // query diye jodi kono fake user kono data search kore, tobe tar theke protect korbe
 const protect = asyncHandler(async (req, res, next) => {
     let token;
-
+    // let value = req.body.token || req.query.token || req.headers["x-access-token"];
     if (
         req.headers.authorization &&
         req.headers.authorization.startsWith("Bearer")
@@ -16,10 +16,10 @@ const protect = asyncHandler(async (req, res, next) => {
             token = req.headers.authorization.split(" ")[1];
 
             // decodes token id
-            const decoded = jwt.verify(token, process.env.JWT_SECRET);
+            const decodedData = jwt.verify(token, process.env.JWT_SECRET);
 
             // age j req er majhe user object ase tar majhe db er jei user ase take id anujayi khuje token er sathe milabe & return without password
-            req.user = await User.findById(decoded.id).select("-password");
+            req.user = await User.findById(decodedData.id).select("-password");
 
             next();
         } catch (error) {
