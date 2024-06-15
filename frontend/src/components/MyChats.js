@@ -87,20 +87,18 @@ const MyChats = () => {
       >
         {
           chats ?
-            <Stack gap={1} >
+            <Stack gap={1} sx={{ overflowY: "scroll" }}>
               {
-                chats.map((chat) =>
+                chats.map((chat) => (
                   <Box
                     key={chat._id}
                     onClick={() => setSelectedChat(chat)}
-                    sx={{
-                      cursor: "pointer",
-                      backgroundColor: selectedChat === chat ? "#38B2AC" : "#E8E8E8",
-                      color: selectedChat === chat ? "white" : "black",
-                      px: 3,
-                      py: 2,
-                      borderRadius: ".1rem"
-                    }}
+                    backgroundColor={selectedChat === chat ? "#38B2AC" : "#E8E8E8"}
+                    color={selectedChat === chat ? "white" : "black"}
+                    borderRadius={".5rem"}
+                    px={3}
+                    py={2}
+                    sx={{ cursor: "pointer" }}
                   >
                     <Typography>
                       {!chat.isGroupChat
@@ -108,8 +106,7 @@ const MyChats = () => {
                         : chat.chatName}
                     </Typography>
                   </Box>
-                )
-              }
+                ))}
             </Stack>
             : <ChatLoading />
         }
