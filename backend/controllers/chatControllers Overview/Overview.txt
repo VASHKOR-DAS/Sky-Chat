@@ -16,3 +16,37 @@ api: (POST) http://localhost:5000/api/chat/group
 1. To click New Group Chat from frontend, it's take two fields (Chat name, Add users)
 2. This function takes the following fields (array of selected users (on json to stringify formate), name(string value)) from body by post request.
 
+** renameGroup **
+role: Rename the Group
+api: (PUT) http://localhost:5000/api/chat/rename
+1. It's take a object by properties chatId, chatName (value - New name of the group).
+
+Example : 
+{
+  "chatId": "641ff39318b7cc154085e50c",
+  "chatName": "Group1 Updated"
+}
+
+** addToGroup **
+role: add a user(by id) to Group
+api: (PUT) http://localhost:5000/api/chat/groupadd
+1. It's take a object by properties chatId, userId (value - a registered user id).
+2. push a user from users array { $push: { users: userId } }
+
+Example: 
+{
+  "chatId": "641ff39318b7cc154085e50c",
+  "userId": "640d765dfa6e51b66bbf25c7"
+}
+
+** removeFromGroup **
+role: remove a user(by id) to Group
+api: (PUT) http://localhost:5000/api/chat/groupremove
+1. It's take a object by properties chatId, userId (value - a registered user id).
+2. pull a user from users array { $pull: { users: userId } }
+
+Example: 
+{
+  "chatId": "641ff39318b7cc154085e50c",
+  "userId": "640d765dfa6e51b66bbf25c7"
+}

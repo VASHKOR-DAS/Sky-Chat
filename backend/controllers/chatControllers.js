@@ -71,6 +71,9 @@ const fetchChats = asyncHandler(async (req, res) => {
     } catch (error) { }
 });
 
+//@description     Create a group chat
+//@route           POST /api/chat/group
+//@access          Protected
 const createGroupChat = asyncHandler(async (req, res) => {
     if (!req.body.users || !req.body.name) {
         return res.status(400).send({ message: "Please fill all the fields" });
@@ -87,7 +90,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
 
     try {
         const groupChat = await Chat.create({
-            chatName : req.body.name,
+            chatName: req.body.name,
             users: users,
             isGroupChat: true,
             groupAdmin: req.user
@@ -97,7 +100,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
             .populate("users", "-password")
             .populate("groupAdmin", "-password");
 
-            res.status(200).json(fullGroupChat);
+        res.status(200).json(fullGroupChat);
 
     } catch (error) {
         res.status(400).send(error.message);
@@ -105,5 +108,72 @@ const createGroupChat = asyncHandler(async (req, res) => {
     }
 });
 
+//@description     rename the group
+//@route           PUT /api/chat/rename
+//@access          Protected
+const renameGroup = asyncHandler(async (req, res) => {
+    const { chatId, chatName } = req.body;
 
-module.exports = { accessChat, fetchChats, createGroupChat };
+    const updatedChat = await Chat.findByIdAndUpdate(
+        chatId,
+        { chatName },
+        { new: true } //new name give, otherwise it's return old name
+    )
+        .populate("users", "-password")
+        .populate("groupAdmin", "-password");
+
+    if (!updatedChat) {
+        res.status(404).send({ message: "Chat Not Found" });
+        throw new Error("Chat Not Found");
+    } else {
+        res.json(updatedChat);
+    }
+});
+
+//@description     add a user(by id) to Group
+//@route           PUT /api/chat/groupadd
+//@access          Protected
+const addToGroup = asyncHandler(async (req, res) => {
+    const { chatId, userId } = req.body; //userId = wish to add a user on group(id)
+
+    const added = await Chat.findByIdAndUpdate(
+        chatId,
+        { $push: { users: userId } },
+        { new: true }
+    )
+        .populate("users", "-password")
+        .populate("groupAdmin", "-password");
+
+    if (!added) {
+        res.status(404).send({ message: "Chat Not Found" });
+        throw new Error("Chat Not Found");
+    } else {
+        res.json(added);
+    }
+});
+
+//@description     remove a user(by id) to Group
+//@route           PUT /api/chat/groupremove
+//@access          Protected
+const removeFromGroup = asyncHandler(async (req, res) => {
+    const { chatId, userId } = req.body; //userId = wish to remove a user on group(id)
+
+    const removed = await Chat.findByIdAndUpdate(
+        chatId,
+        { $pull: { users: userId } },
+        { new: true }
+    )
+        .populate("users", "-password")
+        .populate("groupAdmin", "-password");
+
+    if (!removed) {
+        res.status(404).send({ message: "Chat Not Found" });
+        throw new Error("Chat Not Found");
+    } else {
+        res.json(removed);
+    }
+});
+
+
+
+module.exports = { accessChat, fetchChats, createGroupChat, renameGroup, addToGroup, removeFromGroup };
