@@ -1,18 +1,29 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const ChatContext = createContext();
-
 const ChatProvider = ({ children }) => {
-  const [user, setUser] = useState([]);
+  const [user, setUser] = useState();
+  const [selectedChat, setSelectedChat] = useState();
+  const [chats, setChats] = useState();
+  const [fetchChatAgain, setFetchChatAgain] = useState(true);
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUser(userInfo);
   }, []);
 
-  const chatInfo = { user, setUser };
+  const chatValue = {
+    user,
+    setUser,
+    selectedChat,
+    setSelectedChat,
+    chats,
+    setChats,
+    fetchChatAgain,
+    setFetchChatAgain,
+  };
   return (
-    <ChatContext.Provider value={chatInfo}>{children}</ChatContext.Provider>
+    <ChatContext.Provider value={chatValue}>{children}</ChatContext.Provider>
   );
 };
 

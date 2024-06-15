@@ -9,7 +9,7 @@ import {
   Typography,
 } from "@mui/material";
 import Button from "@mui/joy/Button";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SearchIcon from "@mui/icons-material/Search";
 import Logout from "@mui/icons-material/Logout";
@@ -19,23 +19,17 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
 import ProfileModel from "./ProfileModel";
 import SearchFriendsDrawer from "./SearchFriendsDrawer";
+import { ChatState } from "../../Context/ChatProvider";
 
 const Header = () => {
-   const [user, setUser] = useState([]);
-
-   useEffect(() => {
-     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
-     if (userInfo) {
-       setUser(userInfo);
-     }
-   }, []);
+  const { user, setUser } = ChatState();
 
   const navigate = useNavigate();
 
   const handleLogOut = () => {
     localStorage.removeItem("userInfo");
-    alert("Log out Successful");
     setUser(null);
+    alert("Log out Successful");
     navigate("/");
   };
 

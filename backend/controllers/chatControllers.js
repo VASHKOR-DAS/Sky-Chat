@@ -8,7 +8,7 @@ const User = require('../models/userModel');
 //@hints           req.user._id = logged user (Already login user), userId = wish to chat an user (id)
 const accessChat = asyncHandler(async (req, res) => {
     const { userId } = req.body;
-    console.log(req.body);
+    // console.log(req.body);
 
     if (!userId) {
         console.log('UserId param not sent with request');

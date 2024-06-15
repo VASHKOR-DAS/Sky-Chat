@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import {
   Avatar,
@@ -10,20 +10,41 @@ import {
   ListItemText,
 } from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
+import { blue } from "@mui/material/colors";
 
 const UserListItem = ({ handleFunction }) => {
   const { user } = ChatState();
+
+  const hover = {
+    hoverText: {
+      color: "white",
+    },
+    bg: {
+      backgroundColor: blue[700],
+    },
+    hoverBg: {
+      ":hover": {
+        backgroundColor: blue[900],
+      },
+    },
+  };
+
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <List>
       <ListItemButton
         alignItems="flex-start"
         onClick={handleFunction}
+        sx={[hover.hoverBg, hover.hoverText, hover.bg]}
       >
         <ListItemAvatar>
           <Avatar alt={user.name} src={user.pic} />
         </ListItemAvatar>
-        <ListItemText primary={user.name} secondary={user.email} />
-        <ListItemIcon edge="end">
+        <ListItemText
+          secondaryTypographyProps={{ sx: hover.hoverText }}
+          primary={user.name}
+          secondary={user.email}
+        />
+        <ListItemIcon sx={hover.hoverText}>
           <CommentIcon />
         </ListItemIcon>
       </ListItemButton>

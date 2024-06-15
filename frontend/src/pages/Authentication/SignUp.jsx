@@ -11,7 +11,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { serverURL } from "../../serverURL";
+import { serverURL } from "../../hooks/serverURL";
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState("");

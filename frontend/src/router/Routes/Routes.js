@@ -2,7 +2,8 @@ import { createBrowserRouter } from "react-router-dom";
 import Main from "../../layout/Main/Main";
 import Chat from "../../pages/Chat/Chat";
 import Home from "../../pages/Home/Home/Home";
-import SearchFriendsDrawer from "../../components/miscellaneous/SearchFriendsDrawer";
+import App from "../../App";
+import PrivateRoute from "../PrivateRoute/PrivateRoute";
 
 export const routes = createBrowserRouter([{
     path: "/",
@@ -14,11 +15,11 @@ export const routes = createBrowserRouter([{
         },
         {
             path: "/chats",
-            element: <Chat></Chat>
+            element: <PrivateRoute><Chat></Chat></PrivateRoute>
         },
         {
-            path: "/drawer",
-            element: <SearchFriendsDrawer></SearchFriendsDrawer>
+            path: "/app",
+            element: <App></App>
         },
     ]
 }]);

@@ -4,6 +4,7 @@ function App() {
 
   return (
     <div>
+      <h2>App Js Render</h2>
     </div>
   );
 }

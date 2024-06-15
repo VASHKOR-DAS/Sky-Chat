@@ -8,11 +8,14 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
-import { serverURL } from "../../serverURL";
+import { serverURL } from "../../hooks/serverURL";
 import { useNavigate } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
+import { ChatState } from "../../Context/ChatProvider";
 
 const Login = () => {
+  const { setUser } = ChatState();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -55,12 +58,17 @@ const Login = () => {
         },
         config
       );
-      console.log(data);
-      localStorage.setItem("userInfo", JSON.stringify(data));
-      alert("Login Successful");
-      setLoading(false);
-      navigate("/chats");
+      // console.log(data);
 
+      localStorage.setItem("userInfo", JSON.stringify(data));
+
+      const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+      setUser(userInfo);
+
+      setLoading(false);
+      alert("Login Successful");
+
+      navigate("/chats");
     } catch (error) {
       const ErrorMessage = error.response.data.message;
       console.log(ErrorMessage);
