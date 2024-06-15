@@ -8,7 +8,6 @@ import {
   Typography,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { toast } from "react-hot-toast";
 import LoadingButton from "@mui/lab/LoadingButton";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -47,7 +46,7 @@ const SignUp = () => {
     setLoading(true);
 
     if (pics === undefined) {
-      toast.error("Please Select an Image");
+      alert("Please Select an Image");
       return;
     }
     console.log(pics);
@@ -81,7 +80,7 @@ const SignUp = () => {
           setLoading(false);
         });
     } else {
-      toast.error("Please Select an Image");
+      alert("Please Select an Image");
       setLoading(false);
       return;
     }
@@ -134,16 +133,15 @@ const SignUp = () => {
       );
       console.log(data);
 
-      toast.success("Registration Successful");
+      alert("Registration Successful");
 
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       navigate("/chats");
-      
     } catch (error) {
       const ErrorMessage = error.response.data.message;
       console.log(ErrorMessage);
-      toast.error(ErrorMessage);
+      alert(ErrorMessage);
 
       setLoading(false);
     }

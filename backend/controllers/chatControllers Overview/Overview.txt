@@ -17,7 +17,7 @@ api: (POST) http://localhost:5000/api/chat/group
 2. This function takes the following fields (array of selected users (on json to stringify formate), name(string value)) from body by post request.
 
 ** renameGroup **
-role: Rename the Group
+role: Rename the Group.
 api: (PUT) http://localhost:5000/api/chat/rename
 1. It's take a object by properties chatId, chatName (value - New name of the group).
 
@@ -28,7 +28,7 @@ Example :
 }
 
 ** addToGroup **
-role: add a user(by id) to Group
+role: add a user(by id) to Group.
 api: (PUT) http://localhost:5000/api/chat/groupadd
 1. It's take a object by properties chatId, userId (value - a registered user id).
 2. push a user from users array { $push: { users: userId } }
@@ -40,7 +40,7 @@ Example:
 }
 
 ** removeFromGroup **
-role: remove a user(by id) to Group
+role: remove a user(by id) from Group.
 api: (PUT) http://localhost:5000/api/chat/groupremove
 1. It's take a object by properties chatId, userId (value - a registered user id).
 2. pull a user from users array { $pull: { users: userId } }

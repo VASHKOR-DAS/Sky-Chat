@@ -1,26 +1,40 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { serverURL } from '../../serverURL';
+import React, { useEffect } from "react";
+import { Box } from "@mui/material";
+import ChatBox from "../../components/ChatBox";
+import Header from "../../components/miscellaneous/Header";
+import MyChats from "../../components/MyChats";
+import { ChatState } from "../../Context/ChatProvider";
+import bg from "../../assets/images/bg.jpg";
+import { useNavigate } from "react-router-dom";
 
 const Chat = () => {
-    const [chats, setChats] = useState([]);
+  const navigate = useNavigate();
+  const { user } = ChatState();
 
-    const fetchChats = async () => {
-        const { data } = await axios.get(`${serverURL}/api/chat`);
+  if (!user) {
+    navigate("/");
+  }
 
-        setChats(data);
-    }
-    
+  return (
+    <>
+      <Box
+        sx={{
+          backgroundImage: `url(${bg})`,
+          height: "100vh",
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <Header />
 
-    useEffect(() => {
-        fetchChats();
-    }, [])
-
-    return (
-        <div>
-            {chats.length}
-        </div>
-    );
+        <Box display={"flex"} justifyContent={"space-between"} padding={"1rem"}>
+          <MyChats />
+          <ChatBox />
+        </Box>
+      </Box>
+    </>
+  );
 };
 
 export default Chat;

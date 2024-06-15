@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./Home.css";
 import Tabs from "../Tabs/Tabs/Tabs";
 import { Box, Container, Typography } from "@mui/material";
@@ -9,8 +9,21 @@ import {
   responsiveFontSizes,
   ThemeProvider,
 } from "@mui/material/styles";
+import { ChatState } from "../../../Context/ChatProvider";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const { user } = ChatState();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (user) {
+      navigate("/chats");
+    } else {
+      navigate("/");
+    }
+  }, [navigate, user]);
+
   let theme = createTheme();
   theme = responsiveFontSizes(theme);
 
@@ -21,14 +34,12 @@ const Home = () => {
         height: "100vh",
         backgroundRepeat: "no-repeat",
         backgroundSize: "cover",
+        backgroundPosition: "center",
       }}
     >
       <ThemeProvider theme={theme}>
         <Container maxWidth={"md"} sx={{ py: 4 }}>
-          <Box
-            bgcolor="white"
-            sx={{ borderRadius: 1, py: 2 }}
-          >
+          <Box bgcolor="white" sx={{ borderRadius: 1, py: 2 }}>
             <Typography variant="h4" color={"black"} textAlign="center">
               Sky Chat
             </Typography>

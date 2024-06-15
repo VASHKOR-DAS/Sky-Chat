@@ -9,7 +9,6 @@ import {
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
 import { serverURL } from "../../serverURL";
-import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -57,18 +56,17 @@ const Login = () => {
         config
       );
       console.log(data);
-
-      toast.success("Login Successful");
-
       localStorage.setItem("userInfo", JSON.stringify(data));
+      alert("Login Successful");
       setLoading(false);
       navigate("/chats");
 
     } catch (error) {
       const ErrorMessage = error.response.data.message;
       console.log(ErrorMessage);
-      toast.error(ErrorMessage);
-      
+
+      alert(ErrorMessage);
+
       setLoading(false);
     }
   };
