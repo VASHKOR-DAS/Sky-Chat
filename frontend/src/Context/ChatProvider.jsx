@@ -5,7 +5,9 @@ const ChatProvider = ({ children }) => {
   const [user, setUser] = useState();
   const [selectedChat, setSelectedChat] = useState();
   const [chats, setChats] = useState();
-  const [fetchChatAgain, setFetchChatAgain] = useState(true);
+  const [fetchChatAgain, setFetchChatAgain] = useState(false); //when leave a group refresh ui
+  const [newMessage, setNewMessage] = useState();
+  const [messages, setMessages] = useState([]);
 
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -21,6 +23,10 @@ const ChatProvider = ({ children }) => {
     setChats,
     fetchChatAgain,
     setFetchChatAgain,
+    newMessage,
+    setNewMessage,
+    messages,
+    setMessages,
   };
   return (
     <ChatContext.Provider value={chatValue}>{children}</ChatContext.Provider>

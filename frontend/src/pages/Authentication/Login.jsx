@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import LoadingButton from "@mui/lab/LoadingButton";
 import {
   Button,
-  Stack,
   IconButton,
   InputAdornment,
+  Stack,
   TextField,
 } from "@mui/material";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import axios from "axios";
-import { serverURL } from "../../hooks/serverURL";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import LoadingButton from "@mui/lab/LoadingButton";
 import { ChatState } from "../../Context/ChatProvider";
+import { serverURL } from "../../hooks/serverURL";
 
 const Login = () => {
   const { setUser } = ChatState();
@@ -118,7 +118,6 @@ const Login = () => {
         />
 
         <LoadingButton
-          size="small"
           color="primary"
           type="submit"
           fullWidth

@@ -1,0 +1,51 @@
+/* html {
+  font-size: 16px; /* default */
+
+/* md */
+/* @media screen and (min-width: 600px) {
+  html {
+    font-size: 16px;
+  }
+} */
+
+/* lg */
+/* @media screen and (min-width: 768px) {
+  html {
+    font-size: 17px;
+  }
+} */
+
+/* xl */
+
+/* @media screen and (min-width: 1024px) {
+  html {
+    font-size: 18px;
+  }
+}  */
+
+/* min 16px(320px) - max 20px (1920px) */
+html {
+  font-size: 1rem;
+  font-size: clamp(1rem, 0.95rem + 0.25vw, 1.15rem);
+}
+
+/* box */
+html {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+*,
+*::before,
+*::after {
+  -webkit-box-sizing: inherit;
+  -moz-box-sizing: inherit;
+  box-sizing: inherit;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+}

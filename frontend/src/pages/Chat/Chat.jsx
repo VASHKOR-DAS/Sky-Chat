@@ -1,24 +1,15 @@
 import { Box } from "@mui/material";
 import ChatBox from "../../components/ChatBox";
-import Header from "../../components/miscellaneous/Header";
 import MyChats from "../../components/MyChats";
-import bg from "../../assets/images/bg.jpg";
+import Header from "../../components/miscellaneous/Header";
 
 const Chat = () => {
   return (
     <>
-      <Box
-        sx={{
-          backgroundImage: `url(${bg})`,
-          height: "100vh",
-          backgroundRepeat: "no-repeat",
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      >
+      <Box>
         <Header />
 
-        <Box display={"flex"} justifyContent={"space-between"} padding={"1rem"}>
+        <Box display={"flex"} justifyContent={"space-between"} height={"90vh"}>
           <MyChats />
           <ChatBox />
         </Box>

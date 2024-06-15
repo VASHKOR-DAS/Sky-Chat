@@ -1,3 +1,7 @@
+import Logout from "@mui/icons-material/Logout";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import SearchIcon from "@mui/icons-material/Search";
+import Button from "@mui/joy/Button";
 import {
   Avatar,
   Box,
@@ -8,18 +12,14 @@ import {
   Tooltip,
   Typography,
 } from "@mui/material";
-import Button from "@mui/joy/Button";
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import SearchIcon from "@mui/icons-material/Search";
-import Logout from "@mui/icons-material/Logout";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-import NotificationsIcon from "@mui/icons-material/Notifications";
-import PopupState, { bindTrigger, bindMenu } from "material-ui-popup-state";
+import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { ChatState } from "../../Context/ChatProvider";
 import ProfileModel from "./ProfileModel";
 import SearchFriendsDrawer from "./SearchFriendsDrawer";
-import { ChatState } from "../../Context/ChatProvider";
 
 const Header = () => {
   const { user, setUser } = ChatState();
@@ -64,8 +64,9 @@ const Header = () => {
         display={"flex"}
         justifyContent={"space-between"}
         alignItems={"center"}
-        p={2}
-        bgcolor="white"
+        p={"1em"}
+        margin={"0 0 1em 0"}
+        boxShadow={"0 1em 3em -1.5em rgba(150,170,180,0.5)"}
       >
         <SearchFriendsDrawer>
           <Tooltip title="Search User to chat" arrow>
@@ -74,7 +75,7 @@ const Header = () => {
               startDecorator={<SearchIcon fontSize="small" />}
             >
               <Typography
-                variant="body2"
+                p={".2em"}
                 sx={{ display: { xs: "none", sm: "none", md: "flex" } }}
               >
                 Search user
@@ -83,7 +84,7 @@ const Header = () => {
           </Tooltip>
         </SearchFriendsDrawer>
 
-        <Typography variant="h6" color={"CornflowerBlue"}>
+        <Typography variant="h5" color={"#054DA7"} fontWeight={"600"}>
           Sky Chat
         </Typography>
 
@@ -97,7 +98,7 @@ const Header = () => {
               aria-expanded={open ? "true" : undefined}
               onClick={handleNotificationOpen}
               color="primary"
-              fontSize="medium"
+              size="small"
             >
               <NotificationsIcon />
             </IconButton>
@@ -129,12 +130,12 @@ const Header = () => {
                     <IconButton
                       {...bindTrigger(popupState)}
                       size="small"
-                      sx={{ ml: 1 }}
+                      sx={{ ml: ".5em" }}
                     >
                       <Avatar
                         alt={user.name}
                         src={user.pic}
-                        sx={{ width: 32, height: 32 }}
+                        sx={{ width: "2rem", height: "2rem" }}
                       />
                     </IconButton>
                   </Box>
@@ -143,9 +144,11 @@ const Header = () => {
                     <ProfileModel user={user}>
                       <MenuItem onClick={hideProfile}>
                         <ListItemIcon>
-                          <Avatar sx={{ width: 24, height: 24 }} />
+                          <Avatar sx={{ width: "1.5rem", height: "1.5rem" }} />
                         </ListItemIcon>
-                        <ListItemText>My Profile</ListItemText>
+                        <ListItemText>
+                          <Typography>My Profile</Typography>
+                        </ListItemText>
                       </MenuItem>
                     </ProfileModel>
 
@@ -158,9 +161,11 @@ const Header = () => {
                       }}
                     >
                       <ListItemIcon>
-                        <Logout fontSize="small" />
+                        <Logout sx={{ fontSize: "1.4rem" }} />
                       </ListItemIcon>
-                      <ListItemText>Logout</ListItemText>
+                      <ListItemText>
+                        <Typography>Logout</Typography>
+                      </ListItemText>
                     </MenuItem>
                   </Menu>
                 </>

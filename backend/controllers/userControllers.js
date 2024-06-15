@@ -70,7 +70,7 @@ const allUsers = asyncHandler(async (req, res) => {
             { email: { $regex: keyword, $options: "i" } },
         ],
     } : {};
-    console.log(keyword);
+    // console.log(keyword);
     const users = await User.find(query).find({ _id: { $ne: req.user._id } });
     res.send(users);
     // res.status(401).send('Not authorized, token failed');

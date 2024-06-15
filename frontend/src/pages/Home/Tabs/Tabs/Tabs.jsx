@@ -7,7 +7,6 @@ import { AppBar, Tabs } from "@mui/material";
 import Login from "../../../Authentication/Login";
 import SignUp from "../../../Authentication/SignUp";
 
-
 export default function LabTabs() {
   const [value, setValue] = useState("1");
 
@@ -35,8 +34,14 @@ export default function LabTabs() {
           </AppBar>
         </Box>
 
-        <TabPanel value="1"> <Login></Login> </TabPanel>
-        <TabPanel value="2"> <SignUp></SignUp> </TabPanel>
+        <TabPanel value="1">
+          {" "}
+          <Login />{" "}
+        </TabPanel>
+        <TabPanel value="2">
+          {" "}
+          <SignUp />{" "}
+        </TabPanel>
       </TabContext>
     </Box>
   );

@@ -1,0 +1,149 @@
+** sendMessage **
+role: send message
+api: (POST) http://localhost:5000/api/message
+takes(3) : chatId (receiver the message) , actual message, sender (who is the sender of the message)
+
+Detail of this :
+/*
+message = await User.populate(message, {
+            path: "chat.users",
+            select: "name pic email",
+        }
+*/
+comment of this return me id's of users array
+ "users": [
+      "6413f6f866de1f6faabc46f9",
+      "6436d3f6f175fd5a50342eee",
+      "641308d9ee2532c08e620d36"
+    ],
+
+i wish to know this particular id's user information, So that
+i reassign the message obj like this
+
+message = await User.populate(message, {
+            path: "chat.users",
+            select: "name pic email",
+        }
+
+this is populated users array of (this line below) chatModel
+=> users: [{ type: mongoose.Schema.Types.ObjectId, ref: "User", }],
+
+
+
+
+
+Example:
+
+=> send from frontend (Thunder Client)
+
+{
+  "content": "Hello Unity members",
+  "chatId": "6445377a604ac05457ee3dc4"
+}
+
+=> return
+
+{
+  "sender": {
+    "_id": "641308d9ee2532c08e620d36",
+    "name": "Nila das",
+    "pic": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+  },
+  "content": "Hello Unity members",
+  "chat": {
+    "_id": "6445377a604ac05457ee3dc4",
+    "chatName": "Unity",
+    "isGroupChat": true,
+    "users": [
+      {
+        "_id": "6413f6f866de1f6faabc46f9",
+        "name": "Joya Das",
+        "email": "we@ph.com",
+        "pic": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+      },
+      {
+        "_id": "6436d3f6f175fd5a50342eee",
+        "name": "Bikram Roy",
+        "email": "bikramroy364@gmail.com",
+        "pic": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+      },
+      {
+        "_id": "641308d9ee2532c08e620d36",
+        "name": "Nila das",
+        "email": "web@ph.com",
+        "pic": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+      }
+    ],
+    "groupAdmin": "641308d9ee2532c08e620d36",
+    "createdAt": "2023-04-23T13:49:46.971Z",
+    "updatedAt": "2023-04-23T13:49:46.971Z",
+    "__v": 0
+  },
+  "_id": "64456a7d1b2d6f0f6e58bcbe",
+  "createdAt": "2023-04-23T17:27:25.230Z",
+  "updatedAt": "2023-04-23T17:27:25.230Z",
+  "__v": 0
+}
+
+---- Fetch Chat (saved in data this formate) return =>
+
+{
+    "_id": "6445377a604ac05457ee3dc4",
+    "chatName": "Unity",
+    "isGroupChat": true,
+    "users": [
+      {
+        "_id": "6413f6f866de1f6faabc46f9",
+        "name": "Joya Das",
+        "email": "we@ph.com",
+        "pic": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+        "createdAt": "2023-03-17T05:13:28.148Z",
+        "updatedAt": "2023-03-17T05:13:28.148Z",
+        "__v": 0
+      },
+      {
+        "_id": "6436d3f6f175fd5a50342eee",
+        "name": "Bikram Roy",
+        "email": "bikramroy364@gmail.com",
+        "pic": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+        "createdAt": "2023-04-12T15:53:26.754Z",
+        "updatedAt": "2023-04-12T15:53:26.754Z",
+        "__v": 0
+      },
+      {
+        "_id": "641308d9ee2532c08e620d36",
+        "name": "Nila das",
+        "email": "web@ph.com",
+        "pic": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+        "createdAt": "2023-03-16T12:17:29.160Z",
+        "updatedAt": "2023-03-16T12:17:29.160Z",
+        "__v": 0
+      }
+    ],
+    "groupAdmin": {
+      "_id": "641308d9ee2532c08e620d36",
+      "name": "Nila das",
+      "email": "web@ph.com",
+      "pic": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+      "createdAt": "2023-03-16T12:17:29.160Z",
+      "updatedAt": "2023-03-16T12:17:29.160Z",
+      "__v": 0
+    },
+    "createdAt": "2023-04-23T13:49:46.971Z",
+    "updatedAt": "2023-04-23T18:21:01.983Z",
+    "__v": 0,
+    "latestMessage": {
+      "_id": "6445770c1b2d6f0f6e58bcca",
+      "sender": {
+        "_id": "641308d9ee2532c08e620d36",
+        "name": "Nila das",
+        "email": "web@ph.com",
+        "pic": "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg"
+      },
+      "content": "Hello Unity members",
+      "chat": "6445377a604ac05457ee3dc4",
+      "createdAt": "2023-04-23T18:21:00.834Z",
+      "updatedAt": "2023-04-23T18:21:00.834Z",
+      "__v": 0
+    }
+  },

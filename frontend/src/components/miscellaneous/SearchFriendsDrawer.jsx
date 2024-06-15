@@ -6,12 +6,9 @@ import {
   TextField,
   List,
   ListItem,
-  CircularProgress,
   LinearProgress,
 } from "@mui/material";
 import Button from "@mui/joy/Button";
-import SearchIcon from "@mui/icons-material/Search";
-import IconButton from "@mui/joy/IconButton";
 import { ChatState } from "../../Context/ChatProvider";
 import axios from "axios";
 import ChatLoading from "../ChatLoading";
@@ -25,18 +22,12 @@ const SearchFriendsDrawer = ({ children }) => {
   const handleDrawerClose = () => setOpen(false);
 
   // for search users by query
-  const [search, setSearch] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const [loading, setLoading] = useState(false);
   const [loadingChat, setLoadingChat] = useState(false);
 
   // for search users by query
-  const handleSearch = async () => {
-    if (!search) {
-      alert("Please Enter something for search");
-      return;
-    }
-
+  const handleSearch = async (query) => {
     try {
       setLoading(true);
 
@@ -47,7 +38,7 @@ const SearchFriendsDrawer = ({ children }) => {
       };
 
       const { data } = await axios.get(
-        `${serverURL}/api/user?search=${search}`,
+        `${serverURL}/api/user?search=${query}`,
         config
       );
 
@@ -106,35 +97,36 @@ const SearchFriendsDrawer = ({ children }) => {
       <Drawer anchor="left" open={open} onClose={handleDrawerClose}>
         <List>
           <ListItem>
-            <Box display={"flex"} gap={1}>
+            <Box pt={".6em"} width={"100%"}>
               <TextField
                 size="small"
                 label="Search users"
                 placeholder="Search by name or email"
                 variant="outlined"
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={(query) => handleSearch(query.target.value)}
+                fullWidth
               />
-              <IconButton variant="soft" onClick={handleSearch}>
+              {/* <IconButton variant="soft" onClick={handleSearch}>
                 <SearchIcon />
-              </IconButton>
+              </IconButton> */}
             </Box>
           </ListItem>
 
           {loading ? (
-            <ChatLoading></ChatLoading>
+            <ChatLoading />
           ) : (
             searchResult?.map((user) => (
-              <UserListItem
-                key={user._id}
-                handleFunction={() => accessChat(user._id)}
-              />
+              <ListItem>
+                <UserListItem
+                  key={user._id}
+                  user={user}
+                  handleFunction={() => accessChat(user._id)}
+                />
+              </ListItem>
             ))
           )}
         </List>
-        {loadingChat && (
-          <LinearProgress sx={{mx: 1}} />
-        )}
+        {loadingChat && <LinearProgress sx={{ mx: 1 }} />}
       </Drawer>
     </>
   );

@@ -1,20 +1,15 @@
-import React, { useState } from "react";
-import { ChatState } from "../../Context/ChatProvider";
+import React from "react";
 import {
   Avatar,
-  Divider,
-  List,
+  Box,
   ListItemAvatar,
-  ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
 import CommentIcon from "@mui/icons-material/Comment";
 import { blue } from "@mui/material/colors";
 
-const UserListItem = ({ handleFunction }) => {
-  const { user } = ChatState();
-
+const UserListItem = ({ handleFunction, user }) => {
   const hover = {
     hoverText: {
       color: "white",
@@ -30,26 +25,39 @@ const UserListItem = ({ handleFunction }) => {
   };
 
   return (
-    <List>
-      <ListItemButton
-        alignItems="flex-start"
-        onClick={handleFunction}
-        sx={[hover.hoverBg, hover.hoverText, hover.bg]}
-      >
-        <ListItemAvatar>
-          <Avatar alt={user.name} src={user.pic} />
-        </ListItemAvatar>
-        <ListItemText
-          secondaryTypographyProps={{ sx: hover.hoverText }}
-          primary={user.name}
-          secondary={user.email}
-        />
-        <ListItemIcon sx={hover.hoverText}>
-          <CommentIcon />
-        </ListItemIcon>
-      </ListItemButton>
-      <Divider variant="inset" component="li" />
-    </List>
+    <Box
+      display={"flex"}
+      alignItems="center"
+      onClick={handleFunction}
+      sx={[
+        hover.hoverBg,
+        hover.hoverText,
+        hover.bg,
+        {
+          boxSizing: "border-box",
+          px: ".5em",
+          borderRadius: ".5rem",
+          cursor: "pointer",
+          width: "100%",
+        },
+      ]}
+    >
+      <ListItemAvatar>
+        <Avatar alt={user.name} src={user.pic} />
+      </ListItemAvatar>
+
+      <ListItemText
+        secondaryTypographyProps={{
+          sx: hover.hoverText,
+        }}
+        primary={user.name}
+        secondary={user.email}
+      />
+
+      <ListItemIcon sx={hover.hoverText}>
+        <CommentIcon />
+      </ListItemIcon>
+    </Box>
   );
 };
 

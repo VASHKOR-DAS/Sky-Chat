@@ -1,11 +1,10 @@
-import React, { useState } from "react";
 import { ChatState } from "../../Context/ChatProvider";
-import Home from "../../pages/Home/Home/Home";
+import { Navigate } from "react-router-dom";
 
 const PrivateRoute = ({ children }) => {
   const { user } = ChatState();
 
-  return user ? children : <Home />;
+  return user ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoute;
