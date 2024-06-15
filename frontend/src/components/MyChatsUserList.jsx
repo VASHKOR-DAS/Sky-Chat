@@ -4,7 +4,7 @@ import { cyan } from "@mui/material/colors";
 import React from "react";
 
 const MyChatsUserList = ({ chat, selectedChat, user }) => {
-  console.log(chat);
+  // console.log(chat);
   const defaultUserPic =
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg";
 

@@ -13,12 +13,16 @@ import {
 import { grey } from "@mui/material/colors";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import io from "socket.io-client";
 import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
 import { serverURL } from "../hooks/serverURL";
 import ScrollableChat from "./ScrollableChat";
 import ProfileModel from "./miscellaneous/ProfileModel";
 import UpdateGroupChatModel from "./miscellaneous/UpdateGroupChatModel";
+
+const ENDPOINT = `${serverURL}`;
+var socket, selectedChatCompare;
 
 const SingleChat = () => {
   const {
@@ -95,6 +99,10 @@ const SingleChat = () => {
       setMessages([...messages, data]); //data append in message (State)
     } catch (error) {}
   };
+
+  useEffect(() => {
+    socket = io(ENDPOINT);
+  }, []);
 
   const typingHandler = (event) => {
     event.preventDefault();
