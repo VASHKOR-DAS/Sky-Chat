@@ -150,20 +150,33 @@ const GroupChatModal = ({ open, setOpen, handleOpen }) => {
               </Box>
               {/* selected users */}
 
-              {loading ? (
-                <div>Loading...</div>
-              ) : (
-                searchResult
-                  ?.slice(0, 4)
-                  .map((user) => (
-                    <UserListItem
-                      key={user._id}
-                      user={user}
-                      handleFunction={() => handleGroup(user)}
-                    />
+              <Box
+                overflow={"scroll"}
+                maxHeight={
+                  searchResult && !loading && searchResult?.length > 0 && "10em"
+                }
+                width={"100%"}
+              >
+                {searchResult?.length <= 0 && !loading && (
+                  <Box textAlign={"center"}>No user found</Box>
+                )}
+                {loading ? (
+                  <Box textAlign={"center"}>Loading...</Box>
+                ) : (
+                  searchResult?.map((user) => (
+                    <Box sx={{ pb: 0.5 }}>
+                      <UserListItem
+                        key={user._id}
+                        user={user}
+                        handleFunction={() => handleGroup(user)}
+                      />
+                    </Box>
                   ))
-                // to click on this handleGroup func it's added the mapping user on selectedUsers array
-              )}
+                )}
+              </Box>
+
+              {/* to click on this handleGroup func it's added the mapping user on selectedUsers array */}
+
               <Box
                 display={"flex"}
                 justifyContent={"space-between"}

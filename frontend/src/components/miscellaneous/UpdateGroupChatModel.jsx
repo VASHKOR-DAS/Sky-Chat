@@ -20,7 +20,8 @@ const style = {
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
-  p: 4,
+  px: 4,
+  py: 2,
 };
 
 const UpdateGroupChatModel = ({ fetchMessages }) => {
@@ -238,19 +239,29 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
               onChange={(query) => handleSearch(query.target.value)}
             />
 
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
-              searchResult
-                ?.slice(0, 4)
-                .map((user) => (
-                  <UserListItem
-                    key={user._id}
-                    user={user}
-                    handleFunction={() => handleAddUser(user)}
-                  />
+            {/* userList */}
+            <Box
+              overflow={"scroll"}
+              maxHeight={
+                searchResult && !loading && searchResult?.length > 0 && "10em"
+              }
+              width={"100%"}
+            >
+              {searchResult?.length <= 0 && !loading && "No user found"}
+              {loading ? (
+                <div>Loading...</div>
+              ) : (
+                searchResult?.map((user) => (
+                  <Box sx={{ pb: 0.5 }}>
+                    <UserListItem
+                      key={user._id}
+                      user={user}
+                      handleFunction={() => handleAddUser(user)}
+                    />
+                  </Box>
                 ))
-            )}
+              )}
+            </Box>
 
             <Button
               variant="outlined"

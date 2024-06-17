@@ -1,4 +1,4 @@
-import React from "react";
+import CommentIcon from "@mui/icons-material/Comment";
 import {
   Avatar,
   Box,
@@ -6,8 +6,8 @@ import {
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import CommentIcon from "@mui/icons-material/Comment";
 import { blue } from "@mui/material/colors";
+import React from "react";
 
 const UserListItem = ({ handleFunction, user }) => {
   const hover = {
@@ -34,24 +34,27 @@ const UserListItem = ({ handleFunction, user }) => {
         hover.hoverText,
         hover.bg,
         {
-          boxSizing: "border-box",
           px: ".5em",
-          borderRadius: ".5rem",
+          borderRadius: ".3rem",
           cursor: "pointer",
           width: "100%",
         },
       ]}
     >
       <ListItemAvatar>
-        <Avatar alt={user.name} src={user.pic} />
+        <Avatar alt={user?.name} src={user?.pic} />
       </ListItemAvatar>
 
       <ListItemText
         secondaryTypographyProps={{
           sx: hover.hoverText,
         }}
-        primary={user.name}
-        secondary={user.email}
+        primary={user?.name}
+        secondary={
+          user?.email?.length > 11
+            ? user?.email.slice(0, 11) + "..."
+            : user?.email
+        }
       />
 
       <ListItemIcon sx={hover.hoverText}>

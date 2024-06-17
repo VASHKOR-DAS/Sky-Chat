@@ -111,11 +111,14 @@ const SearchFriendsDrawer = ({ children }) => {
             </Box>
           </ListItem>
 
+          {searchResult?.length <= 0 && !loading && (
+            <Box textAlign={"center"}>No user found</Box>
+          )}
           {loading ? (
             <ChatLoading />
           ) : (
             searchResult?.map((user) => (
-              <ListItem sx={{ py: 0.5 }}>
+              <ListItem sx={{ py: 0.4 }}>
                 <UserListItem
                   key={user._id}
                   user={user}
