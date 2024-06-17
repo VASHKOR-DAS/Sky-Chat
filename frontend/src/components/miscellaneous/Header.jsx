@@ -122,7 +122,7 @@ const Header = () => {
                 sx={{ fontSize: ".8rem", p: "0 1em", cursor: "pointer" }}
                 onClick={handleNotificationClose}
               >
-                {!notification.length && "No New Messages"}
+                {!notification.length && "No New Message"}
 
                 {/* show notification */}
                 {notification.map((notify) => (

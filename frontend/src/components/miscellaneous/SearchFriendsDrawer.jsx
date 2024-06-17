@@ -1,19 +1,18 @@
-import React from "react";
-import { useState } from "react";
+import Button from "@mui/joy/Button";
 import {
-  Drawer,
   Box,
-  TextField,
+  Drawer,
+  LinearProgress,
   List,
   ListItem,
-  LinearProgress,
+  TextField,
 } from "@mui/material";
-import Button from "@mui/joy/Button";
-import { ChatState } from "../../Context/ChatProvider";
 import axios from "axios";
+import React, { useState } from "react";
+import { ChatState } from "../../Context/ChatProvider";
+import { serverURL } from "../../hooks/serverURL";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../UserAvatar/UserListItem";
-import { serverURL } from "../../hooks/serverURL";
 
 const SearchFriendsDrawer = ({ children }) => {
   const { user, setSelectedChat, chats, setChats } = ChatState();
@@ -116,7 +115,7 @@ const SearchFriendsDrawer = ({ children }) => {
             <ChatLoading />
           ) : (
             searchResult?.map((user) => (
-              <ListItem>
+              <ListItem sx={{ py: 0.5 }}>
                 <UserListItem
                   key={user._id}
                   user={user}

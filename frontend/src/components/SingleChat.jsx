@@ -1,7 +1,6 @@
 import { ArrowBack, AttachFile } from "@mui/icons-material";
 import { FaPaperPlane } from "react-icons/fa";
-import Lottie from "react-lottie";
-import animationData from "../assets/animation/typing.json";
+// import typingLottie from "../assets/animation/typingLottie.json";
 import "./SingleChat.css";
 
 import {
@@ -15,6 +14,8 @@ import {
 import { grey } from "@mui/material/colors";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+// import Lottie from "react-lottie";
+import "@dotlottie/player-component";
 import io from "socket.io-client";
 import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
@@ -27,14 +28,14 @@ const ENDPOINT = `${serverURL}`;
 var socket, selectedChatCompare;
 
 // for lottie
-const defaultOptions = {
-  loop: true,
-  autoplay: true,
-  animationData: animationData,
-  rendererSettings: {
-    preserveAspectRatio: "xMidYMid slice",
-  },
-};
+// const defaultOptions = {
+//   loop: true,
+//   autoplay: true,
+//   animationData: animationData,
+//   rendererSettings: {
+//     preserveAspectRatio: "xMidYMid slice",
+//   },
+// };
 
 const SingleChat = () => {
   const {
@@ -54,7 +55,6 @@ const SingleChat = () => {
   // const defaultUserPic =
   //   "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg";
 
-  // const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const [socketConnected, setSocketConnected] = useState(false);
@@ -104,7 +104,7 @@ const SingleChat = () => {
     // eslint-disable-next-line
   }, [selectedChat]); // when send a message call selectedChat
 
-  console.log(notification, "--------");
+  // console.log(notification, "--------");
 
   useEffect(() => {
     socket.on("message received", (newMessageReceived) => {
@@ -261,38 +261,49 @@ const SingleChat = () => {
                 flexDirection: "column",
                 overflowY: "scroll",
                 scrollbarWidth: "none",
-                paddingBottom: "1em",
+                paddingBottom: !isTyping && "1em",
               }}
             >
               <ScrollableChat />
+            </Box>
 
-              {/* for typing animation */}
+            {/* for typing animation */}
+            <Box>
               {isTyping && (
-                <Lottie
-                  options={defaultOptions}
+                // <Lottie
+                //     options={defaultOptions}
+                //     style={{
+                //       background: "#e9eff5",
+                //       margin: ".2em 0 1em 3.63em",
+                //       padding: ".1em",
+                //       borderRadius: "1em 1em 1em 0",
+                //       boxSizing: "content-box",
+                //     }}
+                //     width={"4.5rem"}
+                //     height={"2rem"}
+                //   />
+
+                <dotlottie-player
+                  autoplay
+                  loop
+                  mode="normal"
+                  src="https://assets7.lottiefiles.com/private_files/lf30_ibig1tjo.json"
                   style={{
-                    background: "red",
-                    margin: "0 0 1em 2.63em",
-                    padding: ".2em",
+                    background: "#e9eff5",
+                    margin: ".2em 0 1em 3.63em",
+                    borderRadius: "1em 1em 1em 0",
                     boxSizing: "content-box",
+                    width: "4.5rem",
+                    height: "2rem",
                   }}
-                  width={"4.5rem"}
-                  height={"20px"}
-                />
+                ></dotlottie-player>
               )}
             </Box>
 
             <Box
-              // position="fixed"
-              color="inherit"
               sx={{
-                // top: "auto",
-                // bottom: 0,
                 boxShadow: "0 7px 30px 0px rgba(150,170,180,0.5)",
                 padding: ".8em 1em 1em 1em",
-                // width: { xs: "100%", sm: "100%", md: "68%" },
-
-                // this is Chat typing TextBox to be always bottom style
               }}
             >
               <Box component="form" onSubmit={sendMessage}>
