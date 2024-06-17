@@ -24,3 +24,16 @@ if none of chat selected || if i am inside chatBox of a person {
 
 before message received,
 send a message to socket.io by sendMessage function
+
+** Typing Indicator Logic **
+ if (!typing) {
+      setTyping(true);
+      socket.emit("typing", selectedChat._id);
+    }
+if user !typing (not typing) a message (typingHandler (onChange) func) its
+setTyping(true);
+socket.emit("typing", selectedChat._id);
+its selectedChat room 
+
+npm install lottie-react
+

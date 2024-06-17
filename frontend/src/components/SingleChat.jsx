@@ -24,6 +24,16 @@ import UpdateGroupChatModel from "./miscellaneous/UpdateGroupChatModel";
 const ENDPOINT = `${serverURL}`;
 var socket, selectedChatCompare;
 
+// for lottie
+// const defaultOptions = {
+//   loop: true,
+//   autoplay: true,
+//   animationData: animationData,
+//   rendererSettings: {
+//     preserveAspectRatio: "xMidYMid slice",
+//   },
+// };
+
 const SingleChat = () => {
   const {
     user,
@@ -42,6 +52,8 @@ const SingleChat = () => {
   const [loading, setLoading] = useState(false);
 
   const [socketConnected, setSocketConnected] = useState(false);
+  const [typing, setTyping] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
 
   // allMessages
   const fetchMessages = async (event) => {
@@ -74,7 +86,9 @@ const SingleChat = () => {
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user); // (user get from contextApi) pass the loggedUser obj to backend
-    socket.on("connection", () => setSocketConnected(true));
+    socket.on("connected", () => setSocketConnected(true));
+    socket.on("typing", () => setIsTyping(true));
+    socket.on("stop typing", () => setIsTyping(false));
   }, []);
 
   useEffect(() => {
@@ -131,6 +145,26 @@ const SingleChat = () => {
     setNewMessage(event.target.value);
 
     // Typing Indicator Logic
+    if (!socketConnected) return;
+
+    if (!typing) {
+      setTyping(true);
+      socket.emit("typing", selectedChat._id);
+    }
+    let lastTypingTime = new Date().getTime();
+    var timerLength = 3000;
+
+    // typing indicator when show or hide
+    setTimeout(() => {
+      var timeNow = new Date().getTime();
+      var timeDiff = timeNow - lastTypingTime;
+
+      // when 2 condition are true
+      if (timeDiff >= timerLength && typing) {
+        socket.emit("stop typing", selectedChat._id);
+        setTyping(false);
+      }
+    }, timerLength);
   };
 
   return (
@@ -229,6 +263,9 @@ const SingleChat = () => {
               }}
               onSubmit={sendMessage}
             >
+              {/* for typing animation */}
+              {isTyping && "loading..."}
+
               <TextField
                 InputProps={{
                   style: {
