@@ -41,6 +41,8 @@ const SingleChat = () => {
   // const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const [socketConnected, setSocketConnected] = useState(false);
+
   // allMessages
   const fetchMessages = async (event) => {
     if (!selectedChat) return;
@@ -61,16 +63,39 @@ const SingleChat = () => {
       // console.log(messages);
       setMessages(data);
       setLoading(false);
+
+      // socket create a particular room by clicked a user
+      socket.emit("join chat", selectedChat._id);
     } catch (error) {
       console.log("Failed to load the Message");
     }
   };
 
   useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", user); // (user get from contextApi) pass the loggedUser obj to backend
+    socket.on("connection", () => setSocketConnected(true));
+  }, []);
+
+  useEffect(() => {
     fetchMessages();
 
+    selectedChatCompare = selectedChat;
     // eslint-disable-next-line
   }, [selectedChat]); // when send a message call selectedChat
+
+  useEffect(() => {
+    socket.on("message received", (newMessageReceived) => {
+      if (
+        !selectedChatCompare ||
+        selectedChatCompare._id !== newMessageReceived.chat._id
+      ) {
+        // give notification
+      } else {
+        setMessages([...messages, newMessageReceived]);
+      }
+    });
+  });
 
   const sendMessage = async (event) => {
     event.preventDefault();
@@ -96,13 +121,10 @@ const SingleChat = () => {
       );
 
       setLoading(false);
+      socket.emit("new message", data);
       setMessages([...messages, data]); //data append in message (State)
     } catch (error) {}
   };
-
-  useEffect(() => {
-    socket = io(ENDPOINT);
-  }, []);
 
   const typingHandler = (event) => {
     event.preventDefault();

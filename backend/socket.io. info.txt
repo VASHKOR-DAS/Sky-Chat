@@ -1,0 +1,26 @@
+socket.on("setup", () => {})
+
+take user data from the fronted
+this function create a room and join particular user to the room
+create a new room for the id of user data
+
+socket.join(userData._id); create a room for the particular user
+
+
+ ** 01. new message **
+it take a parameter newMessageReceived, which is
+if i (loggedUser) send a group message of 4 members,
+this function send the other user a message without me (loggedUser)
+
+
+if (!selectedChatCompare || selectedChatCompare._id !== newMessageReceived.chat._id)  {  
+    // give notification
+}
+
+this condition are,
+if none of chat selected || if i am inside chatBox of a person {
+    it will send the notification of other users message, except a chatBox of a person, that i'm chatting right now (selectedChat)
+}
+
+before message received,
+send a message to socket.io by sendMessage function

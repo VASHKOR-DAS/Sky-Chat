@@ -2,16 +2,16 @@ const express = require('express');
 const connectDB = require('./config/db');
 const cors = require('cors');
 require('dotenv').config();
+
+// for fronted server
+const frontendOrigin = "http://localhost:3000";
+
 // const { chats } = require("./data/data"); // fakeDate
 // const { notFound, errorHandler } = require('./middleware/errorMiddleware');
 const userRoutes = require("./routes/userRoutes");
 const chatRoutes = require("./routes/chatRoutes");
 const messageRoutes = require("./routes/messageRoutes");
 // const serverURL  = require('../frontend/src/hooks/serverURL');
-
-// for io
-const { createServer } = require("http");
-// const { Server } = require("socket.io");
 
 
 const app = express();
@@ -64,11 +64,34 @@ const io = new require("socket.io")(server, {
     // pingTimeout means they have amount of time for wait to disconnect connection(millisecond)
     pingTimeout: 60000,
     cors: {
-        origin: "http://localhost:3000",
+        origin: frontendOrigin,
     },
 });
 
-
 io.on('connection', (socket) => {
     console.log("connected to socket.io");
+
+    // take user data from the fronted
+    socket.on("setup", (userData) => {
+        socket.join(userData._id); //loggedUser obj
+        console.log(userData._id);
+        socket.emit("connected");
+    });
+
+    socket.on("join chat", (room) => {
+        socket.join(room);
+        console.log(`User Joined Room: ${room}`);
+    });
+
+    socket.on("new message", (newMessageReceived) => {
+        var chat = newMessageReceived.chat;
+
+        if (!chat.users) return console.log("chat.users not defined");
+
+        chat.users.forEach((user) => {
+            if (user._id == newMessageReceived.sender._id) return;
+
+            socket.in(user._id).emit("message received", newMessageReceived);
+        });
+    });
 });
