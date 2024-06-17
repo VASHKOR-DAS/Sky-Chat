@@ -1,5 +1,7 @@
 import { ArrowBack, AttachFile } from "@mui/icons-material";
 import { FaPaperPlane } from "react-icons/fa";
+import Lottie from "react-lottie";
+import animationData from "../assets/animation/typing.json";
 import "./SingleChat.css";
 
 import {
@@ -25,14 +27,14 @@ const ENDPOINT = `${serverURL}`;
 var socket, selectedChatCompare;
 
 // for lottie
-// const defaultOptions = {
-//   loop: true,
-//   autoplay: true,
-//   animationData: animationData,
-//   rendererSettings: {
-//     preserveAspectRatio: "xMidYMid slice",
-//   },
-// };
+const defaultOptions = {
+  loop: true,
+  autoplay: true,
+  animationData: animationData,
+  rendererSettings: {
+    preserveAspectRatio: "xMidYMid slice",
+  },
+};
 
 const SingleChat = () => {
   const {
@@ -43,6 +45,10 @@ const SingleChat = () => {
     setNewMessage,
     messages,
     setMessages,
+    notification,
+    setNotification,
+    fetchChatAgain,
+    setFetchChatAgain,
   } = ChatState();
 
   // const defaultUserPic =
@@ -98,6 +104,8 @@ const SingleChat = () => {
     // eslint-disable-next-line
   }, [selectedChat]); // when send a message call selectedChat
 
+  console.log(notification, "--------");
+
   useEffect(() => {
     socket.on("message received", (newMessageReceived) => {
       if (
@@ -105,6 +113,12 @@ const SingleChat = () => {
         selectedChatCompare._id !== newMessageReceived.chat._id
       ) {
         // give notification
+        if (!notification.includes(newMessageReceived)) {
+          setNotification([newMessageReceived, ...notification]);
+
+          // update list of our chat, latest msg update accordingly
+          setFetchChatAgain(!fetchChatAgain);
+        }
       } else {
         setMessages([...messages, newMessageReceived]);
       }
@@ -247,105 +261,119 @@ const SingleChat = () => {
                 flexDirection: "column",
                 overflowY: "scroll",
                 scrollbarWidth: "none",
+                paddingBottom: "1em",
               }}
             >
               <ScrollableChat />
+
+              {/* for typing animation */}
+              {isTyping && (
+                <Lottie
+                  options={defaultOptions}
+                  style={{
+                    background: "red",
+                    margin: "0 0 1em 2.63em",
+                    padding: ".2em",
+                    boxSizing: "content-box",
+                  }}
+                  width={"4.5rem"}
+                  height={"20px"}
+                />
+              )}
             </Box>
 
             <Box
-              component="form"
+              // position="fixed"
+              color="inherit"
               sx={{
+                // top: "auto",
+                // bottom: 0,
                 boxShadow: "0 7px 30px 0px rgba(150,170,180,0.5)",
-                mt: "1em",
                 padding: ".8em 1em 1em 1em",
+                // width: { xs: "100%", sm: "100%", md: "68%" },
 
                 // this is Chat typing TextBox to be always bottom style
               }}
-              onSubmit={sendMessage}
             >
-              {/* for typing animation */}
-              {isTyping && "loading..."}
-
-              <TextField
-                InputProps={{
-                  style: {
-                    borderRadius: "50px",
-                    fontSize: ".9rem",
-                  },
-                  startAdornment: (
-                    <InputAdornment position="start">
-                      <IconButton>
-                        <AttachFile
-                          style={{
-                            transform: "rotate(45deg) scaleY(-1)",
-                          }}
-                          fontSize="small"
-                        />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        type="submit"
-                        style={{
-                          background:
-                            "linear-gradient(to right, #7142e9, #b435f5",
-                          borderRadius: "50%",
-                          position: "absolute",
-                          right: 0,
-                          outline: 0,
-                          zIndex: 1,
-                        }}
-                      >
-                        {loading ? (
-                          <CircularProgress
-                            sx={{ color: "white" }}
-                            size={"1em"}
-                          />
-                        ) : (
-                          <FaPaperPlane
-                            color="white"
-                            style={{ padding: "2px" }}
-                          />
-                        )}
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-                fullWidth
-                sx={{
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      // borderColor: "",
-                      borderWidth: 0,
-                      backgroundColor: "rgba(150,170,180,0.2)",
+              <Box component="form" onSubmit={sendMessage}>
+                <TextField
+                  InputProps={{
+                    style: {
                       borderRadius: "50px",
+                      fontSize: ".9rem",
                     },
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <IconButton>
+                          <AttachFile
+                            style={{
+                              transform: "rotate(45deg) scaleY(-1)",
+                            }}
+                            fontSize="small"
+                          />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          type="submit"
+                          style={{
+                            background:
+                              "linear-gradient(to right, #7142e9, #b435f5",
+                            borderRadius: "50%",
+                            position: "absolute",
+                            right: 0,
+                            outline: 0,
+                            zIndex: 1,
+                          }}
+                        >
+                          {loading ? (
+                            <CircularProgress
+                              sx={{ color: "white" }}
+                              size={"1em"}
+                            />
+                          ) : (
+                            <FaPaperPlane
+                              color="white"
+                              style={{ padding: "2px" }}
+                            />
+                          )}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                  fullWidth
+                  sx={{
+                    "& .MuiOutlinedInput-root": {
+                      "& fieldset": {
+                        // borderColor: "",
+                        borderWidth: 0,
+                        backgroundColor: "rgba(150,170,180,0.2)",
+                        borderRadius: "50px",
+                      },
 
-                    "&:hover fieldset": {
-                      borderColor: "#b435f5",
-                      borderWidth: 2,
-                      backgroundColor: "initial",
-                    },
+                      "&:hover fieldset": {
+                        borderColor: "#b435f5",
+                        borderWidth: 2,
+                        backgroundColor: "initial",
+                      },
 
-                    "&.Mui-focused fieldset": {
-                      borderWidth: 0,
-                      backgroundColor: "initial",
+                      "&.Mui-focused fieldset": {
+                        borderWidth: 0,
+                        backgroundColor: "initial",
+                      },
                     },
-                  },
-                }}
-                placeholder="Type a message here..."
-                size="small"
-                multiline
-                maxRows={4}
-                required
-                value={newMessage || ""}
-                onChange={typingHandler}
-              />
-              {/* <IconButton type="submit">
-                <Send color="primary" sx={{ fontSize: "1.7rem" }} />
-              </IconButton> */}
+                  }}
+                  placeholder="Type a message here..."
+                  size="small"
+                  multiline
+                  maxRows={4}
+                  required
+                  value={newMessage || ""}
+                  onChange={typingHandler}
+                />
+              </Box>
             </Box>
           </Box>
         </>

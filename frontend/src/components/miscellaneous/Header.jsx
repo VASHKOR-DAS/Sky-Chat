@@ -4,11 +4,13 @@ import SearchIcon from "@mui/icons-material/Search";
 import Button from "@mui/joy/Button";
 import {
   Avatar,
+  Badge,
   Box,
   Divider,
   IconButton,
   ListItemIcon,
   ListItemText,
+  MenuList,
   Tooltip,
   Typography,
 } from "@mui/material";
@@ -18,11 +20,13 @@ import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
+import { getSender } from "../../config/ChatLogics";
 import ProfileModel from "./ProfileModel";
 import SearchFriendsDrawer from "./SearchFriendsDrawer";
 
 const Header = () => {
-  const { user, setUser } = ChatState();
+  const { user, setUser, notification, setNotification, setSelectedChat } =
+    ChatState();
 
   const navigate = useNavigate();
 
@@ -100,7 +104,9 @@ const Header = () => {
               color="primary"
               size="small"
             >
-              <NotificationsIcon />
+              <Badge badgeContent={notification.length} color="secondary">
+                <NotificationsIcon />
+              </Badge>
             </IconButton>
 
             <Menu
@@ -112,12 +118,34 @@ const Header = () => {
                 "aria-labelledby": "basic-button",
               }}
             >
-              <MenuItem onClick={handleNotificationClose}>
-                Notification 1
-              </MenuItem>
-              <MenuItem onClick={handleNotificationClose}>
-                Notification 2
-              </MenuItem>
+              <MenuList
+                sx={{ fontSize: ".8rem", p: "0 1em", cursor: "pointer" }}
+                onClick={handleNotificationClose}
+              >
+                {!notification.length && "No New Messages"}
+
+                {/* show notification */}
+                {notification.map((notify) => (
+                  <MenuItem
+                    sx={{ fontSize: ".8rem", p: 0 }}
+                    key={notify._id}
+                    onClick={() => {
+                      // when click a notify its go to chat
+                      setSelectedChat(notify.chat);
+
+                      // when click a notify remove it from array
+                      setNotification(notification.filter((n) => n !== notify));
+                    }}
+                  >
+                    {notify.chat.isGroupChat
+                      ? `New Message in ${notify.chat.chatName}`
+                      : `New Message from ${getSender(
+                          user,
+                          notify.chat.users
+                        )}`}
+                  </MenuItem>
+                ))}
+              </MenuList>
             </Menu>
           </>
           {/* for notification */}

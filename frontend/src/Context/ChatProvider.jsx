@@ -9,6 +9,9 @@ const ChatProvider = ({ children }) => {
   const [newMessage, setNewMessage] = useState();
   const [messages, setMessages] = useState([]);
 
+  // for notification
+  const [notification, setNotification] = useState([]);
+
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUser(userInfo);
@@ -27,6 +30,8 @@ const ChatProvider = ({ children }) => {
     setNewMessage,
     messages,
     setMessages,
+    notification,
+    setNotification,
   };
   return (
     <ChatContext.Provider value={chatValue}>{children}</ChatContext.Provider>

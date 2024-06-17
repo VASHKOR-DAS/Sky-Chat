@@ -35,5 +35,5 @@ setTyping(true);
 socket.emit("typing", selectedChat._id);
 its selectedChat room 
 
-npm install lottie-react
+npm install react-lottie
 
