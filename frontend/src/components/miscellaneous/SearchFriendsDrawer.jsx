@@ -69,7 +69,7 @@ const SearchFriendsDrawer = ({ children }) => {
       );
 
       // if chats is not already (old conversation) in it, update current chat state(MyChats> chats useState)
-      // if (old conversion is not asign, create a new conversion by accessChat() /[setSelectedChat])
+      // if (old conversion is not assign, create a new conversion by accessChat() /[setSelectedChat])
       if (!chats.find((c) => c._id === data._id)) {
         setChats([data, ...chats]);
       }
@@ -105,9 +105,6 @@ const SearchFriendsDrawer = ({ children }) => {
                 onChange={(query) => handleSearch(query.target.value)}
                 fullWidth
               />
-              {/* <IconButton variant="soft" onClick={handleSearch}>
-                <SearchIcon />
-              </IconButton> */}
             </Box>
           </ListItem>
 

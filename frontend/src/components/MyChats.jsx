@@ -128,6 +128,7 @@ const MyChats = () => {
                   "&:hover": {
                     transform: "scale(1.05)",
                     transition: "all .2s",
+                    boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 50px",
                   },
                 }}
                 style={{

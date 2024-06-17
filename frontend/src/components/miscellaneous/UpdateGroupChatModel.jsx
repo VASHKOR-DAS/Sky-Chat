@@ -247,9 +247,11 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
               }
               width={"100%"}
             >
-              {searchResult?.length <= 0 && !loading && "No user found"}
+              {searchResult?.length <= 0 && !loading && (
+                <Box textAlign={"center"}>No user found</Box>
+              )}
               {loading ? (
-                <div>Loading...</div>
+                <Box textAlign={"center"}>Loading...</Box>
               ) : (
                 searchResult?.map((user) => (
                   <Box sx={{ pb: 0.5 }}>
