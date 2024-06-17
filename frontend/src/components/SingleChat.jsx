@@ -104,7 +104,7 @@ const SingleChat = () => {
     // eslint-disable-next-line
   }, [selectedChat]); // when send a message call selectedChat
 
-  // console.log(notification, "--------");
+  console.log(notification, "--------");
 
   useEffect(() => {
     socket.on("message received", (newMessageReceived) => {

@@ -8,6 +8,14 @@ const MyChatsUserList = ({ chat, selectedChat, user }) => {
   const defaultUserPic =
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg";
 
+  const isOwnMessage = chat?.latestMessage?.sender?._id === user._id;
+  let latestMessageRender = chat?.latestMessage?.content;
+  let latestMessageSlice = latestMessageRender?.slice(0, 20) + " ...";
+
+  if (latestMessageRender?.length > 20) {
+    latestMessageRender = latestMessageSlice;
+  }
+
   return (
     <>
       {!chat?.isGroupChat ? (
@@ -39,10 +47,10 @@ const MyChatsUserList = ({ chat, selectedChat, user }) => {
                   {chat?.users[1]?.name}
                 </Typography>
                 <Typography fontSize={".8rem"}>
-                  {chat?.latestMessage?.sender?._id === user._id ? (
-                    <>You: {chat?.latestMessage?.content}</>
+                  {isOwnMessage ? (
+                    <>You: {latestMessageRender}</>
                   ) : (
-                    <>{chat?.latestMessage?.content}</>
+                    <>{latestMessageRender}</>
                   )}
                 </Typography>
               </Box>
@@ -73,10 +81,10 @@ const MyChatsUserList = ({ chat, selectedChat, user }) => {
                   {chat?.users[0]?.name}
                 </Typography>
                 <Typography fontSize={".8rem"}>
-                  {chat?.latestMessage?.sender?._id === user._id ? (
-                    <>You: {chat?.latestMessage?.content}</>
+                  {isOwnMessage ? (
+                    <>You: {latestMessageRender}</>
                   ) : (
-                    <>{chat?.latestMessage?.content}</>
+                    <>{latestMessageRender}</>
                   )}
                 </Typography>
               </Box>
@@ -105,10 +113,10 @@ const MyChatsUserList = ({ chat, selectedChat, user }) => {
               {chat?.chatName}
             </Typography>
             <Typography fontSize={".8rem"}>
-              {chat?.latestMessage?.sender?._id === user._id ? (
-                <>You: {chat?.latestMessage?.content}</>
+              {isOwnMessage ? (
+                <>You: {latestMessageRender}</>
               ) : (
-                <>{chat?.latestMessage?.content}</>
+                <>{latestMessageRender}</>
               )}
             </Typography>
           </Box>

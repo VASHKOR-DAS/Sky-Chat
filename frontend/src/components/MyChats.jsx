@@ -116,6 +116,7 @@ const MyChats = () => {
           <Stack sx={{ overflowY: "scroll" }}>
             {chats.map((chat) => (
               <Box
+                // overflow={"hidden"}
                 key={chat._id}
                 onClick={() => setSelectedChat(chat)}
                 color={selectedChat === chat ? "white" : grey[800]}
