@@ -50,7 +50,7 @@ const ProfileModel = ({ user, children }) => {
                   height: "4rem",
                 }}
               >
-                <Person color="white" fontSize="large" />
+                <Person color="white" sx={{ fontSize: "3rem" }} />
               </Avatar>
             ) : (
               <Avatar

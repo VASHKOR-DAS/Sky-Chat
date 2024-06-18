@@ -47,12 +47,13 @@ const UserListItem = ({ handleFunction, user }) => {
         {user?.pic === defaultUserPic ? (
           <Avatar
             style={{
-              background: "linear-gradient(to right, #7142e9, #b435f5)",
+              // background: "linear-gradient(to right, #7142e9, #b435f5)",
+              backgroundColor: blue[800],
               width: "2.5rem",
               height: "2.5rem",
             }}
           >
-            <Person color="white" />
+            <Person color="white" sx={{ fontSize: "1.8rem" }} />
           </Avatar>
         ) : (
           <Avatar alt={user?.name} src={user?.pic} />

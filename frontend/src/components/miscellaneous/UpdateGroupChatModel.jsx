@@ -201,8 +201,8 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
             <Box sx={{ display: "flex", width: "100%", flexWrap: "wrap" }}>
               {selectedChat.users.map((u) => (
                 <UserBadgeItem
-                  key={user._id}
-                  user={u}
+                  key={u._id}
+                  groupUser={u}
                   handleFunction={() => handleRemove(u)}
                 />
               ))}
@@ -212,7 +212,7 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
               <TextField
                 fullWidth
                 id="outlined-basic"
-                label="Chat Name"
+                label="Group Name"
                 variant="outlined"
                 size="small"
                 value={groupChatName}
