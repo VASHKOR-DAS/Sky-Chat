@@ -1,3 +1,4 @@
+import { Person } from "@mui/icons-material";
 import CommentIcon from "@mui/icons-material/Comment";
 import {
   Avatar,
@@ -8,6 +9,7 @@ import {
 } from "@mui/material";
 import { blue } from "@mui/material/colors";
 import React from "react";
+import { defaultUserPic } from "../../hooks/GlobalVariable";
 
 const UserListItem = ({ handleFunction, user }) => {
   const hover = {
@@ -42,7 +44,19 @@ const UserListItem = ({ handleFunction, user }) => {
       ]}
     >
       <ListItemAvatar>
-        <Avatar alt={user?.name} src={user?.pic} />
+        {user?.pic === defaultUserPic ? (
+          <Avatar
+            style={{
+              background: "linear-gradient(to right, #7142e9, #b435f5)",
+              width: "2.5rem",
+              height: "2.5rem",
+            }}
+          >
+            <Person color="white" />
+          </Avatar>
+        ) : (
+          <Avatar alt={user?.name} src={user?.pic} />
+        )}
       </ListItemAvatar>
 
       <ListItemText

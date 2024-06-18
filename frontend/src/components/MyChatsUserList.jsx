@@ -2,6 +2,7 @@ import { Diversity3, Groups, People, Person } from "@mui/icons-material";
 import { Avatar, Box, Typography } from "@mui/material";
 import { cyan } from "@mui/material/colors";
 import React from "react";
+import { defaultUserPic } from "../hooks/GlobalVariable";
 
 const MyChatsUserList = ({ chat, selectedChat, user }) => {
   // console.log(chat);
@@ -15,9 +16,6 @@ const MyChatsUserList = ({ chat, selectedChat, user }) => {
   } else {
     getUser = loggedUser;
   }
-
-  const defaultUserPic =
-    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg";
 
   const isOwnMessage = chat?.latestMessage?.sender?._id === user._id;
   let latestMessageRender = chat?.latestMessage?.content;

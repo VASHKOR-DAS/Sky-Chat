@@ -23,6 +23,7 @@ import { Person } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
 import { getSender } from "../../config/ChatLogics";
+import { defaultUserPic } from "../../hooks/GlobalVariable";
 import ProfileModel from "./ProfileModel";
 import SearchFriendsDrawer from "./SearchFriendsDrawer";
 
@@ -38,10 +39,6 @@ const Header = () => {
     alert("Log out Successful");
     navigate("/");
   };
-
-  // for userIcon
-  const defaultUserPic =
-    "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg";
 
   // for notification Menu
   const [anchorEl, setAnchorEl] = useState(null);
@@ -133,9 +130,12 @@ const Header = () => {
                     setNotification(notification.filter((n) => n !== notify));
                   }}
                 >
-                  {notify.chat.isGroupChat
-                    ? `New Message in ${notify.chat.chatName}`
-                    : `New Message from ${getSender(user, notify.chat.users)}`}
+                  {notify?.chat?.isGroupChat
+                    ? `New Message in ${notify?.chat?.chatName}`
+                    : `New Message from ${getSender(
+                        user,
+                        notify?.chat?.users
+                      )}`}
                 </MenuItem>
               ))}
             </MenuList>
@@ -158,7 +158,7 @@ const Header = () => {
                           height: "1.8rem",
                         }}
                       >
-                        <Person color="white" />
+                        <Person color="white" fontSize="small" />
                       </Avatar>
                     ) : (
                       <Avatar

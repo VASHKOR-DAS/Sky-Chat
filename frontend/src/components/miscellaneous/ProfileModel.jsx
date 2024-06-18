@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
+import { Person } from "@mui/icons-material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { Avatar, Button, IconButton, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Typography from "@mui/material/Typography";
+import React, { useState } from "react";
+import { defaultUserPic } from "../../hooks/GlobalVariable";
 
 const style = {
   position: "absolute",
@@ -40,11 +42,24 @@ const ProfileModel = ({ user, children }) => {
       >
         <Box sx={style}>
           <Stack spacing={"1em"} alignItems="center">
-            <Avatar
-              alt={user.name}
-              src={user.pic}
-              sx={{ width: "4rem", height: "4rem" }}
-            ></Avatar>
+            {user?.pic === defaultUserPic ? (
+              <Avatar
+                style={{
+                  background: "linear-gradient(to right, #7142e9, #b435f5)",
+                  width: "4rem",
+                  height: "4rem",
+                }}
+              >
+                <Person color="white" fontSize="large" />
+              </Avatar>
+            ) : (
+              <Avatar
+                alt={user.name}
+                src={user.pic}
+                sx={{ width: "4rem", height: "4rem" }}
+              ></Avatar>
+            )}
+
             <Typography id="modal-modal-title" variant="h6" component="h2">
               Name: {user.name}
             </Typography>
