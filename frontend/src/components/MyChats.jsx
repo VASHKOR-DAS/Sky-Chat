@@ -128,16 +128,22 @@ const MyChats = () => {
                 sx={{
                   cursor: "pointer",
                   "&:hover": {
-                    transform: "scale(1.05)",
+                    transform: {
+                      xs: "scale(1.02)",
+                      sm: "scale(1.02)",
+                      md: "scale(1.04)",
+                    },
                     transition: "all .2s",
                     boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 50px",
+                    background:
+                      "linear-gradient(to right, #7142e980, #b435f580)",
                   },
                 }}
                 style={{
                   background: `${
                     selectedChat === chat
                       ? "linear-gradient(to right, #7142e9, #b435f5)"
-                      : "white"
+                      : ""
                   }`,
                 }}
               >

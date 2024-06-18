@@ -104,7 +104,7 @@ const SingleChat = () => {
     // eslint-disable-next-line
   }, [selectedChat]); // when send a message call selectedChat
 
-  console.log(notification, "--------");
+  // console.log(notification, "--------");
 
   useEffect(() => {
     socket.on("message received", (newMessageReceived) => {
@@ -201,7 +201,7 @@ const SingleChat = () => {
               sx={{ display: { xs: "flex", sm: "flex", md: "none" } }}
               onClick={() => setSelectedChat("")}
             >
-              <ArrowBack sx={{ color: "#054DA7" }} />
+              <ArrowBack />
             </IconButton>
 
             {!selectedChat.isGroupChat ? (
