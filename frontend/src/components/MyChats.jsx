@@ -8,6 +8,7 @@ import { serverURL } from "../hooks/serverURL";
 import ChatLoading from "./ChatLoading";
 import MyChatsUserList from "./MyChatsUserList";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
+import Header from "./miscellaneous/Header";
 
 const MyChats = () => {
   // for GroupChatModal
@@ -59,17 +60,19 @@ const MyChats = () => {
         backgroundColor: "#f8fafc",
         width: { xs: "100%", md: "32%" },
       }}
+      mt={".5em"}
+      boxShadow={"rgba(0, 0, 0, 0.4) 0px 30px 90px"}
     >
+      <Box sx={{ backgroundColor: "white" }} width={"100%"}>
+        <Header />
+      </Box>
+
       <Box
-        sx={{ backgroundColor: "white" }}
-        position={"relative"} // for centering icon
+        padding={"1em"}
         alignItems={"center"}
         display={"flex"}
         width={"100%"}
         justifyContent={"space-between"}
-        padding={".85em 1em"}
-        margin={"0 0 1em 0"}
-        boxShadow={"0 7px 30px -10px rgba(150,170,180,0.5)"}
       >
         <Typography
           variant="h6"
@@ -77,7 +80,6 @@ const MyChats = () => {
         >
           My Chats
         </Typography>
-
         <GroupChatModal open={open} setOpen={setOpen} handleOpen={handleOpen} />
         <Tooltip title="Create Group" placement="top" arrow>
           <Add
@@ -103,7 +105,7 @@ const MyChats = () => {
 
       <Box
         sx={{
-          mt: "2em",
+          mt: "1em",
           display: "flex",
           flexDirection: "column",
           width: "100%",
@@ -134,7 +136,7 @@ const MyChats = () => {
                 style={{
                   background: `${
                     selectedChat === chat
-                      ? "linear-gradient(to right, #7142e9, #b435f5"
+                      ? "linear-gradient(to right, #7142e9, #b435f5)"
                       : "white"
                   }`,
                 }}
@@ -144,12 +146,6 @@ const MyChats = () => {
                   selectedChat={selectedChat}
                   user={user}
                 />
-
-                {/* <Typography>
-                  {!chat.isGroupChat
-                    ? getSender(user, chat.users)
-                    : chat.chatName}
-                </Typography> */}
               </Box>
             ))}
           </Stack>

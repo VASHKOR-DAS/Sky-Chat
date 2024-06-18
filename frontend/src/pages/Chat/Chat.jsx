@@ -1,15 +1,17 @@
 import { Box } from "@mui/material";
 import ChatBox from "../../components/ChatBox";
 import MyChats from "../../components/MyChats";
-import Header from "../../components/miscellaneous/Header";
 
 const Chat = () => {
   return (
     <>
       <Box>
-        <Header />
-
-        <Box display={"flex"} justifyContent={"space-between"} height={"90vh"}>
+        <Box
+          display={"flex"}
+          justifyContent={"space-between"}
+          height={"100vh"}
+          boxShadow={"rgba(0, 0, 0, 0.4) 0px 30px 90px"}
+        >
           <MyChats />
           <ChatBox />
         </Box>
