@@ -5,14 +5,25 @@ import React from "react";
 
 const MyChatsUserList = ({ chat, selectedChat, user }) => {
   // console.log(chat);
+  let getUser;
+
+  const loggedUser = 0;
+  const otherUser = 1;
+
+  if (chat?.users[0]?._id === user?._id) {
+    getUser = otherUser;
+  } else {
+    getUser = loggedUser;
+  }
+
   const defaultUserPic =
     "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg";
 
   const isOwnMessage = chat?.latestMessage?.sender?._id === user._id;
   let latestMessageRender = chat?.latestMessage?.content;
-  let latestMessageSlice = latestMessageRender?.slice(0, 20) + " ...";
+  let latestMessageSlice = latestMessageRender?.slice(0, 15) + " ...";
 
-  if (latestMessageRender?.length > 20) {
+  if (latestMessageRender?.length > 15) {
     latestMessageRender = latestMessageSlice;
   }
 
@@ -20,78 +31,43 @@ const MyChatsUserList = ({ chat, selectedChat, user }) => {
     <>
       {!chat?.isGroupChat ? (
         <>
-          {chat?.users[0]?._id === user?._id ? (
-            <Box display={"flex"}>
-              {chat.users[1]?.pic === defaultUserPic ? (
-                <Avatar
-                  style={{
-                    background: `${
-                      selectedChat === chat
-                        ? cyan["500"]
-                        : "linear-gradient(to right, #7142e9, #b435f5"
-                    }`,
-                  }}
-                >
-                  {selectedChat === chat ? (
-                    <People color="white" />
-                  ) : (
-                    <Person color="white" />
-                  )}
-                </Avatar>
-              ) : (
-                <Avatar src={chat?.users[1]?.pic} />
-              )}
+          <Box display={"flex"}>
+            {chat.users[getUser]?.pic === defaultUserPic ? (
+              <Avatar
+                style={{
+                  background: `${
+                    selectedChat === chat
+                      ? cyan["500"]
+                      : "linear-gradient(to right, #7142e9, #b435f5"
+                  }`,
+                }}
+              >
+                {selectedChat === chat ? (
+                  <People color="white" />
+                ) : (
+                  <Person color="white" />
+                )}
+              </Avatar>
+            ) : (
+              <Avatar src={chat?.users[getUser]?.pic} />
+            )}
 
-              <Box ml={".5em"}>
-                <Typography fontSize={".85rem"} fontWeight={"bold"}>
-                  {chat?.users[1]?.name}
-                </Typography>
-                <Typography fontSize={".8rem"}>
-                  {isOwnMessage ? (
-                    <>You: {latestMessageRender}</>
-                  ) : (
-                    <>{latestMessageRender}</>
-                  )}
-                </Typography>
-              </Box>
+            <Box ml={".5em"}>
+              <Typography fontSize={".85rem"} fontWeight={"bold"}>
+                {chat?.users[getUser]?.name}
+              </Typography>
+              <Typography fontSize={".8rem"}>
+                {isOwnMessage ? (
+                  <>You: {latestMessageRender}</>
+                ) : (
+                  <>{latestMessageRender}</>
+                )}
+              </Typography>
             </Box>
-          ) : (
-            <Box display={"flex"}>
-              {chat.users[0]?.pic === defaultUserPic ? (
-                <Avatar
-                  style={{
-                    background: `${
-                      selectedChat === chat
-                        ? cyan["500"]
-                        : "linear-gradient(to right, #7142e9, #b435f5"
-                    }`,
-                  }}
-                >
-                  {selectedChat === chat ? (
-                    <People color="white" />
-                  ) : (
-                    <Person color="white" />
-                  )}
-                </Avatar>
-              ) : (
-                <Avatar src={chat?.users[1]?.pic} />
-              )}
-              <Box ml={".5em"}>
-                <Typography fontSize={".85rem"} fontWeight={"bold"}>
-                  {chat?.users[0]?.name}
-                </Typography>
-                <Typography fontSize={".8rem"}>
-                  {isOwnMessage ? (
-                    <>You: {latestMessageRender}</>
-                  ) : (
-                    <>{latestMessageRender}</>
-                  )}
-                </Typography>
-              </Box>
-            </Box>
-          )}
+          </Box>
         </>
       ) : (
+        // Group chat
         <Box display={"flex"}>
           <Avatar
             style={{
