@@ -201,7 +201,7 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
             <Box sx={{ display: "flex", width: "100%", flexWrap: "wrap" }}>
               {selectedChat.users.map((u) => (
                 <UserBadgeItem
-                  key={u._id}
+                  key={user._id}
                   groupUser={u}
                   handleFunction={() => handleRemove(u)}
                 />

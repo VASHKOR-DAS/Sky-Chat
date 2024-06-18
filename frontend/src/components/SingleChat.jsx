@@ -52,9 +52,6 @@ const SingleChat = () => {
     setFetchChatAgain,
   } = ChatState();
 
-  // const defaultUserPic =
-  //   "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg";
-
   const [loading, setLoading] = useState(false);
 
   const [socketConnected, setSocketConnected] = useState(false);

@@ -4,8 +4,10 @@ import { grey } from "@mui/material/colors";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { ChatState } from "../Context/ChatProvider";
+import { getSenderFull } from "../config/ChatLogics";
 import { serverURL } from "../hooks/serverURL";
 import ChatLoading from "./ChatLoading";
+import "./MyChats.css";
 import MyChatsUserList from "./MyChatsUserList";
 import GroupChatModal from "./miscellaneous/GroupChatModal";
 import Header from "./miscellaneous/Header";
@@ -117,41 +119,41 @@ const MyChats = () => {
         {chats ? (
           <Stack sx={{ overflowY: "scroll" }}>
             {chats.map((chat) => (
-              <Box
-                key={chat._id}
-                onClick={() => setSelectedChat(chat)}
-                color={selectedChat === chat ? "white" : grey[800]}
-                borderRadius={".5rem"}
-                p={".5rem"}
-                m={"0.2em 1em"}
-                boxShadow={"0 7px 10px -5px rgba(150,170,180,0.5)"}
-                sx={{
-                  cursor: "pointer",
-                  "&:hover": {
-                    transform: {
-                      xs: "scale(1.02)",
-                      sm: "scale(1.02)",
-                      md: "scale(1.04)",
-                    },
-                    transition: "all .2s",
-                    boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 50px",
-                    background:
-                      "linear-gradient(to right, #7142e980, #b435f580)",
-                  },
-                }}
-                style={{
-                  background: `${
-                    selectedChat === chat
-                      ? "linear-gradient(to right, #7142e9, #b435f5)"
-                      : ""
-                  }`,
-                }}
-              >
-                <MyChatsUserList
-                  chat={chat}
-                  selectedChat={selectedChat}
-                  user={user}
-                />
+              <Box className="prevent-select">
+                {getSenderFull(user, chat?.users) && (
+                  <Box
+                    key={chat?._id}
+                    onClick={() => setSelectedChat(chat)}
+                    color={selectedChat === chat ? "white" : grey[800]}
+                    borderRadius={".5rem"}
+                    p={".5rem"}
+                    m={"0.2em 1em"}
+                    boxShadow={"0 7px 10px -5px rgba(150,170,180,0.5)"}
+                    sx={{
+                      cursor: "pointer",
+                      "&:hover": {
+                        transform: {
+                          xs: "scale(1.02)",
+                          sm: "scale(1.02)",
+                          md: "scale(1.04)",
+                        },
+                        transition: "all .2s",
+                        boxShadow: "rgba(0, 0, 0, 0.4) 0px 30px 50px",
+                        background:
+                          "linear-gradient(to right, #7142e980, #b435f580)",
+                      },
+                    }}
+                    style={{
+                      background: `${
+                        selectedChat === chat
+                          ? "linear-gradient(to right, #7142e9, #b435f5)"
+                          : ""
+                      }`,
+                    }}
+                  >
+                    <MyChatsUserList chat={chat} />
+                  </Box>
+                )}
               </Box>
             ))}
           </Stack>
