@@ -1,4 +1,4 @@
-import { Group, Person } from "@mui/icons-material";
+import { Groups, Person } from "@mui/icons-material";
 import Logout from "@mui/icons-material/Logout";
 import {
   Avatar,
@@ -136,7 +136,7 @@ const Header = () => {
                       boxShadow: "none",
                     },
                   }}
-                  key={notify?.chat?._id}
+                  key={notify?._id}
                   onClick={() => {
                     // when click a notify its go to chat
                     setSelectedChat(notify?.chat);
@@ -166,7 +166,7 @@ const Header = () => {
                           }}
                           sx={{ width: 30, height: 30 }}
                         >
-                          <Group color="white" fontSize="small" />
+                          <Groups color="white" fontSize="small" />
                         </Avatar>
                         <Typography fontSize={".9rem"}>
                           {notify?.chat?.chatName}
@@ -193,15 +193,23 @@ const Header = () => {
                       pr={".5em"}
                     >
                       <Box display={"flex"} alignItems={"center"} gap={".5em"}>
-                        <Avatar
-                          style={{
-                            background:
-                              "linear-gradient(to right, #7142e9, #b435f5",
-                          }}
-                          sx={{ width: 30, height: 30 }}
-                        >
-                          <Person color="white" fontSize="small" />
-                        </Avatar>
+                        {getSenderFull(user, notify?.chat?.users)?.pic ===
+                        defaultUserPic ? (
+                          <Avatar
+                            style={{
+                              background:
+                                "linear-gradient(to right, #7142e9, #b435f5",
+                            }}
+                            sx={{ width: 30, height: 30 }}
+                          >
+                            <Person color="white" fontSize="small" />
+                          </Avatar>
+                        ) : (
+                          <Avatar
+                            sx={{ width: 30, height: 30 }}
+                            src={getSenderFull(user, notify?.chat?.users)?.pic}
+                          />
+                        )}
                         <Typography fontSize={".9rem"}>
                           {getSenderFull(user, notify?.chat?.users)?.name}
                         </Typography>
