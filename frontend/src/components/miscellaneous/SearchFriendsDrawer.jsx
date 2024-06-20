@@ -9,6 +9,7 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { ChatState } from "../../Context/ChatProvider";
 import { serverURL } from "../../hooks/serverURL";
 import ChatLoading from "../ChatLoading";
@@ -45,7 +46,7 @@ const SearchFriendsDrawer = ({ children }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      alert("Failed to load the search results");
+      toast.error("Failed to load search result !");
     }
   };
   // for search users by query
@@ -78,7 +79,7 @@ const SearchFriendsDrawer = ({ children }) => {
       handleDrawerClose();
     } catch (error) {
       setLoadingChat(false);
-      alert("Error fetching the chat", error.message);
+      toast.error("Error fetching the chat", error.message);
     }
   };
   // Create or Access One to One Chat (Create a New chat)
@@ -115,9 +116,8 @@ const SearchFriendsDrawer = ({ children }) => {
             <ChatLoading />
           ) : (
             searchResult?.map((user) => (
-              <ListItem sx={{ py: 0.4 }}>
+              <ListItem key={user._id} sx={{ py: 0.4 }}>
                 <UserListItem
-                  key={user._id}
                   user={user}
                   handleFunction={() => accessChat(user._id)}
                 />

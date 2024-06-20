@@ -6,6 +6,7 @@ import Modal from "@mui/material/Modal";
 import Typography from "@mui/material/Typography";
 import axios from "axios";
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import { ChatState } from "../../Context/ChatProvider";
 import { serverURL } from "../../hooks/serverURL";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
@@ -68,7 +69,7 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
       setSearchResult(data);
     } catch (error) {
       setLoading(false);
-      alert("Failed to load the search results");
+      toast.error("Failed to load the search results !");
     }
   };
 
@@ -101,19 +102,19 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
       fetchMessages(); // so that all the messages get refresh
       setRenameLoading(false);
     } catch (error) {
-      alert(error.message);
+      toast.error(error.message);
       setRenameLoading(false);
     }
   };
 
   const handleAddUser = async (user1) => {
     if (selectedChat.users.find((u) => u._id === user1._id)) {
-      alert("User Already in group!");
+      toast.error("User Already in group !");
       return;
     }
 
     if (selectedChat.groupAdmin._id !== user._id) {
-      alert("Only admins can add member!");
+      toast.error("Only admins can add member !");
       return;
     }
 
@@ -140,14 +141,14 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      alert(error.message);
+      toast.error(error.message);
     }
   };
 
   //   remove member from the group
   const handleRemove = async (user1) => {
     if (selectedChat.groupAdmin._id !== user._id && user1._id !== user._id) {
-      alert("Only admins can remove member!");
+      toast.error("Only admins can remove member !");
       return;
     }
 
@@ -176,106 +177,111 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      alert(error.message);
+      toast.error(error.message);
     }
     setGroupChatName("");
   };
 
   return (
-    <div>
-      <IconButton onClick={handleOpen}>
-        <VisibilityIcon />
-      </IconButton>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <Stack spacing={"1em"} alignItems="center">
-            <Typography id="modal-modal-title" variant="h6" component="h2">
-              {selectedChat.chatName}
-            </Typography>
+    <>
+      <ToastContainer position="top-center" autoClose={3000} />
+      <div>
+        <IconButton onClick={handleOpen}>
+          <VisibilityIcon />
+        </IconButton>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            <Stack spacing={"1em"} alignItems="center">
+              <Typography id="modal-modal-title" variant="h6" component="h2">
+                {selectedChat.chatName}
+              </Typography>
 
-            <Box sx={{ display: "flex", width: "100%", flexWrap: "wrap" }}>
-              {selectedChat.users.map((u) => (
-                <UserBadgeItem
-                  key={user._id}
-                  groupUser={u}
-                  handleFunction={() => handleRemove(u)}
+              <Box sx={{ display: "flex", width: "100%", flexWrap: "wrap" }}>
+                {selectedChat.users.map((u) => (
+                  <UserBadgeItem
+                    key={user._id}
+                    groupUser={u}
+                    handleFunction={() => handleRemove(u)}
+                  />
+                ))}
+              </Box>
+
+              <Box display={"flex"} gap={".5em"}>
+                <TextField
+                  fullWidth
+                  id="outlined-basic"
+                  label="Group Name"
+                  variant="outlined"
+                  size="small"
+                  value={groupChatName}
+                  onChange={(e) => setGroupChatName(e.target.value)}
                 />
-              ))}
-            </Box>
-
-            <Box display={"flex"} gap={".5em"}>
+                <LoadingButton
+                  color="info"
+                  // type="submit"
+                  loading={renameLoading}
+                  // loadingPosition="start"
+                  // startIcon={<RiUserAddFill />}
+                  onClick={handleRename}
+                  variant="contained"
+                >
+                  <span>Update</span>
+                </LoadingButton>
+              </Box>
               <TextField
                 fullWidth
                 id="outlined-basic"
-                label="Group Name"
+                label="Add User"
                 variant="outlined"
                 size="small"
-                value={groupChatName}
-                onChange={(e) => setGroupChatName(e.target.value)}
+                onChange={(query) => handleSearch(query.target.value)}
               />
-              <LoadingButton
-                color="info"
-                // type="submit"
-                loading={renameLoading}
-                // loadingPosition="start"
-                // startIcon={<RiUserAddFill />}
-                onClick={handleRename}
-                variant="contained"
+
+              {/* userList */}
+              <Box
+                overflow={"scroll"}
+                maxHeight={
+                  searchResult && !loading && searchResult?.length > 0 && "10em"
+                }
+                width={"100%"}
               >
-                <span>Update</span>
-              </LoadingButton>
-            </Box>
-            <TextField
-              fullWidth
-              id="outlined-basic"
-              label="Add User"
-              variant="outlined"
-              size="small"
-              onChange={(query) => handleSearch(query.target.value)}
-            />
+                {searchResult?.length <= 0 && !loading && (
+                  <Box textAlign={"center"}>No user found</Box>
+                )}
+                {loading ? (
+                  <Box textAlign={"center"}>Loading...</Box>
+                ) : (
+                  searchResult?.map((user) => (
+                    <Box sx={{ pb: 0.5 }}>
+                      <UserListItem
+                        key={user._id}
+                        user={user}
+                        handleFunction={() => handleAddUser(user)}
+                      />
+                    </Box>
+                  ))
+                )}
+              </Box>
 
-            {/* userList */}
-            <Box
-              overflow={"scroll"}
-              maxHeight={
-                searchResult && !loading && searchResult?.length > 0 && "10em"
-              }
-              width={"100%"}
-            >
-              {searchResult?.length <= 0 && !loading && (
-                <Box textAlign={"center"}>No user found</Box>
-              )}
-              {loading ? (
-                <Box textAlign={"center"}>Loading...</Box>
-              ) : (
-                searchResult?.map((user) => (
-                  <Box sx={{ pb: 0.5 }}>
-                    <UserListItem
-                      key={user._id}
-                      user={user}
-                      handleFunction={() => handleAddUser(user)}
-                    />
-                  </Box>
-                ))
-              )}
-            </Box>
-
-            <Button
-              variant="outlined"
-              onClick={() => handleRemove(user)}
-              color="error"
-            >
-              <Typography textTransform={"capitalize"}>Leave Group</Typography>
-            </Button>
-          </Stack>
-        </Box>
-      </Modal>
-    </div>
+              <Button
+                variant="outlined"
+                onClick={() => handleRemove(user)}
+                color="error"
+              >
+                <Typography textTransform={"capitalize"}>
+                  Leave Group
+                </Typography>
+              </Button>
+            </Stack>
+          </Box>
+        </Modal>
+      </div>
+    </>
   );
 };
 

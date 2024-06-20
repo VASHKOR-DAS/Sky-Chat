@@ -1,15 +1,18 @@
-import React, { useState } from "react";
-import Snackbar from "@mui/material/Snackbar";
 import { Alert, AlertTitle } from "@mui/material";
+import Snackbar from "@mui/material/Snackbar";
+import React from "react";
+import { ChatState } from "../../Context/ChatProvider";
+import { handleOpenAlert } from "../Functions";
 
 const CustomAlert = ({ severity, text, titleText, children }) => {
-  const [openAlert, setOpenAlert] = useState(true);
+  const { openAlert, setOpenAlert } = ChatState();
 
-  const handleOpenAlert = () => {
-    setOpenAlert(true);
-  };
+  // const handleOpenAlert = (setOpenAlert) => {
+  //   setOpenAlert(true);
+  // };
+  handleOpenAlert(setOpenAlert);
 
-  const handleCloseAlert = (event, reason) => {
+  const handleCloseAlert = (reason) => {
     if (reason === "clickaway") {
       return;
     }
@@ -31,7 +34,7 @@ const CustomAlert = ({ severity, text, titleText, children }) => {
           vertical: "top",
         }}
         open={openAlert}
-        autoHideDuration={2000}
+        autoHideDuration={3000}
         onClose={handleCloseAlert}
         sx={{ width: "100%" }}
       >

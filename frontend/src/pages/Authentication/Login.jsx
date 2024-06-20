@@ -10,6 +10,7 @@ import {
 import axios from "axios";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import { ChatState } from "../../Context/ChatProvider";
 import { serverURL } from "../../hooks/serverURL";
 
@@ -41,7 +42,6 @@ const Login = () => {
       setEmailError(true);
     }
     // console.log(`Username: ${email}, Password: ${password}`);
-    console.log(email, password);
 
     try {
       const config = {
@@ -66,81 +66,85 @@ const Login = () => {
       setUser(userInfo);
 
       setLoading(false);
-      alert("Login Successful");
+      // alert("Login Successful");
 
       navigate("/chats");
     } catch (error) {
       const ErrorMessage = error.response.data.message;
       console.log(ErrorMessage);
 
-      alert(ErrorMessage);
+      toast.error(`${ErrorMessage} !`);
+      // alert(ErrorMessage);
 
       setLoading(false);
     }
   };
 
   return (
-    <form onSubmit={handleLogin}>
-      <Stack spacing={3}>
-        <TextField
-          fullWidth
-          value={email}
-          label="Email"
-          size="small"
-          type="email"
-          error={emailError}
-          helperText={emailError && "Please enter a valid email address"}
-          required
-          onChange={(event) => setEmail(event.target.value)}
-        />
+    <>
+      <ToastContainer position="top-center" autoClose={3000} />
+      <form onSubmit={handleLogin}>
+        <Stack spacing={3}>
+          <TextField
+            fullWidth
+            value={email}
+            label="Email"
+            size="small"
+            type="email"
+            error={emailError}
+            helperText={emailError && "Please enter a valid email address"}
+            required
+            onChange={(event) => setEmail(event.target.value)}
+          />
 
-        <TextField
-          fullWidth
-          value={password}
-          label="Password"
-          variant="outlined"
-          size="small"
-          required
-          type={showPassword ? "text" : "password"}
-          onChange={(event) => setPassword(event.target.value)}
-          InputProps={{
-            endAdornment: (
-              <InputAdornment position="end">
-                <IconButton
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
-                >
-                  {showPassword ? <VisibilityOff /> : <Visibility />}
-                </IconButton>
-              </InputAdornment>
-            ),
-          }}
-        />
+          <TextField
+            fullWidth
+            value={password}
+            label="Password"
+            variant="outlined"
+            size="small"
+            required
+            type={showPassword ? "text" : "password"}
+            onChange={(event) => setPassword(event.target.value)}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={handleClickShowPassword}
+                    onMouseDown={handleMouseDownPassword}
+                  >
+                    {showPassword ? <VisibilityOff /> : <Visibility />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
 
-        <LoadingButton
-          color="primary"
-          type="submit"
-          fullWidth
-          loading={loading}
-          // loadingPosition="start"
-          // startIcon={<RiUserAddFill />}
-          variant="contained"
-        >
-          <span>Login</span>
-        </LoadingButton>
+          <LoadingButton
+            color="primary"
+            type="submit"
+            fullWidth
+            loading={loading}
+            // loadingPosition="start"
+            // startIcon={<RiUserAddFill />}
+            variant="contained"
+          >
+            <span>Login</span>
+          </LoadingButton>
 
-        <Button
-          variant="contained"
-          color="secondary"
-          onClick={() => {
-            setEmail("guest@example.com");
-            setPassword("123456");
-          }}
-        >
-          <span>Guest User</span>
-        </Button>
-      </Stack>
-    </form>
+          <Button
+            variant="contained"
+            color="secondary"
+            onClick={() => {
+              setEmail("guest@example.com");
+              setPassword("123456");
+            }}
+          >
+            <span>Guest User</span>
+          </Button>
+        </Stack>
+      </form>
+    </>
   );
 };
 

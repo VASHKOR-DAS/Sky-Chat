@@ -1,18 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { RouterProvider } from 'react-router-dom';
-import { routes } from './router/Routes/Routes';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import App from './App';
 import ChatProvider from './Context/ChatProvider';
+import './index.css';
+import reportWebVitals from './reportWebVitals';
+import { routes } from './router/Routes/Routes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <ChatProvider>
       <RouterProvider router={routes}>
-        <App />
+        <ToastContainer>
+          <App />
+        </ToastContainer>
       </RouterProvider>
     </ChatProvider>
   </React.StrictMode>

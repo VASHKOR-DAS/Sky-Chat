@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import axios from "axios";
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
 import { ChatState } from "../../Context/ChatProvider";
 import { serverURL } from "../../hooks/serverURL";
 import UserBadgeItem from "../UserAvatar/UserBadgeItem";
@@ -54,18 +55,18 @@ const GroupChatModal = ({ open, setOpen, handleOpen }) => {
         config
       );
 
-      console.log("data", data);
+      // console.log("data", data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
       setLoading(false);
-      alert("Failed to load the search results");
+      toast.error("Failed to load the search results");
     }
   };
 
   const handleSubmit = async () => {
     if (!groupChatName || !selectedUsers) {
-      alert("Please fill all the fields");
+      toast.error("Please fill all the fields");
       return;
     }
 
@@ -87,9 +88,9 @@ const GroupChatModal = ({ open, setOpen, handleOpen }) => {
 
       setChats([data, ...chats]);
       handleClose();
-      alert("New Group Chat Created");
+      toast.success("New Group Chat Created");
     } catch (error) {
-      alert("Failed to Create the Chat!");
+      toast.error("Failed to Create the Chat!");
     }
   };
 
@@ -99,7 +100,7 @@ const GroupChatModal = ({ open, setOpen, handleOpen }) => {
 
   const handleGroup = (userToAdd) => {
     if (selectedUsers.includes(userToAdd)) {
-      return alert("User already added");
+      return toast.error("User already added");
     } else {
       setSelectedUsers([...selectedUsers, userToAdd]);
     }
@@ -107,6 +108,7 @@ const GroupChatModal = ({ open, setOpen, handleOpen }) => {
 
   return (
     <>
+      <ToastContainer position="top-center" autoClose={3000} />
       {/* <span onClick={handleOpen}>{children}</span> */}
 
       <Modal
@@ -142,8 +144,8 @@ const GroupChatModal = ({ open, setOpen, handleOpen }) => {
               <Box sx={{ display: "flex", width: "100%", flexWrap: "wrap" }}>
                 {selectedUsers.map((u) => (
                   <UserBadgeItem
-                    key={user._id}
-                    user={u}
+                    key={u._id}
+                    groupUser={u}
                     handleFunction={() => handleDelete(u)}
                   />
                 ))}

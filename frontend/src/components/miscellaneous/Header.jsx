@@ -35,7 +35,7 @@ const Header = () => {
   const handleLogOut = () => {
     localStorage.removeItem("userInfo");
     setUser(null);
-    alert("Log out Successful");
+    // alert("Log out Successful");
     navigate("/");
   };
 
@@ -71,6 +71,7 @@ const Header = () => {
 
   return (
     <>
+      {/* <ToastContainer position="top-center" autoClose={3000} /> */}
       <Box
         display={"flex"}
         justifyContent={"space-between"}

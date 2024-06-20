@@ -12,6 +12,8 @@ const ChatProvider = ({ children }) => {
   // for notification
   const [notification, setNotification] = useState([]);
 
+  const [openAlert, setOpenAlert] = useState(false);
+
   useEffect(() => {
     const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     setUser(userInfo);
@@ -32,6 +34,8 @@ const ChatProvider = ({ children }) => {
     setMessages,
     notification,
     setNotification,
+    openAlert,
+    setOpenAlert,
   };
   return (
     <ChatContext.Provider value={chatValue}>{children}</ChatContext.Provider>

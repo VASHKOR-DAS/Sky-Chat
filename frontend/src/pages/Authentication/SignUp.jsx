@@ -1,16 +1,17 @@
-import React, { useState } from "react";
-import {
-  TextField,
-  InputAdornment,
-  IconButton,
-  Grid,
-  Avatar,
-  Typography,
-} from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import {
+  Avatar,
+  Grid,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import axios from "axios";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 import { serverURL } from "../../hooks/serverURL";
 
 const SignUp = () => {
@@ -46,7 +47,7 @@ const SignUp = () => {
     setLoading(true);
 
     if (pics === undefined) {
-      alert("Please Select an Image");
+      toast.info("Please Select an Image");
       return;
     }
     console.log(pics);
@@ -80,7 +81,7 @@ const SignUp = () => {
           setLoading(false);
         });
     } else {
-      alert("Please Select an Image");
+      toast.info("Please Select an Image");
       setLoading(false);
       return;
     }
@@ -131,179 +132,182 @@ const SignUp = () => {
         },
         config
       );
-      console.log(data);
+      // console.log(data);
 
-      alert("Registration Successful");
+      toast.success("Registration Successful");
 
       localStorage.setItem("userInfo", JSON.stringify(data));
       setLoading(false);
       navigate("/chats");
     } catch (error) {
       const ErrorMessage = error.response.data.message;
-      console.log(ErrorMessage);
-      alert(ErrorMessage);
+      // console.log(ErrorMessage);
+      toast.error(ErrorMessage);
 
       setLoading(false);
     }
   };
 
   return (
-    <form sx={{ flexGrow: 1 }} onSubmit={handleSubmit}>
-      <Grid container spacing={2}>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            value={firstName}
-            label="First Name"
-            variant="outlined"
-            required
-            error={firstNameError}
-            helperText={firstNameError && "Please enter your first name"}
-            onChange={(event) => setFirstName(event.target.value)}
-            // onBlur={() => setFirstNameError(firstName.trim() === "")}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <TextField
-            fullWidth
-            value={lastName}
-            label="Last Name"
-            variant="outlined"
-            required
-            error={lastNameError}
-            helperText={lastNameError && "Please enter your last name"}
-            onChange={(event) => setLastName(event.target.value)}
-            // onBlur={() => setLastNameError(lastName.trim() === "")}
-          />
-        </Grid>
+    <>
+      <ToastContainer position="top-center" autoClose={3000} />
+      <form sx={{ flexGrow: 1 }} onSubmit={handleSubmit}>
+        <Grid container spacing={2}>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              value={firstName}
+              label="First Name"
+              variant="outlined"
+              required
+              error={firstNameError}
+              helperText={firstNameError && "Please enter your first name"}
+              onChange={(event) => setFirstName(event.target.value)}
+              // onBlur={() => setFirstNameError(firstName.trim() === "")}
+            />
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <TextField
+              fullWidth
+              value={lastName}
+              label="Last Name"
+              variant="outlined"
+              required
+              error={lastNameError}
+              helperText={lastNameError && "Please enter your last name"}
+              onChange={(event) => setLastName(event.target.value)}
+              // onBlur={() => setLastNameError(lastName.trim() === "")}
+            />
+          </Grid>
 
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            value={email}
-            label="Email Address"
-            variant="outlined"
-            required
-            type="email"
-            error={emailError}
-            helperText={emailError && "Please enter a valid email address"}
-            onChange={(event) => setEmail(event.target.value)}
-            // onBlur={() =>
-            //   setEmailError(
-            //     email.trim() === "" || !/^\S+@\S+\.\S+$/.test(email)
-            //   )
-            // }
-          />
-        </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              value={email}
+              label="Email Address"
+              variant="outlined"
+              required
+              type="email"
+              error={emailError}
+              helperText={emailError && "Please enter a valid email address"}
+              onChange={(event) => setEmail(event.target.value)}
+              // onBlur={() =>
+              //   setEmailError(
+              //     email.trim() === "" || !/^\S+@\S+\.\S+$/.test(email)
+              //   )
+              // }
+            />
+          </Grid>
 
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            value={password}
-            label="Password"
-            variant="outlined"
-            required
-            type={showPassword ? "text" : "password"}
-            error={passwordError}
-            helperText={passwordError && "Please enter a password"}
-            onChange={(event) => setPassword(event.target.value)}
-            // onBlur={() => setPasswordError(password.trim() === "")}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              value={password}
+              label="Password"
+              variant="outlined"
+              required
+              type={showPassword ? "text" : "password"}
+              error={passwordError}
+              helperText={passwordError && "Please enter a password"}
+              onChange={(event) => setPassword(event.target.value)}
+              // onBlur={() => setPasswordError(password.trim() === "")}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
 
-        <Grid item xs={12}>
-          <TextField
-            fullWidth
-            value={confirmPassword}
-            label="Confirm Password"
-            variant="outlined"
-            required
-            type={showPassword ? "text" : "password"}
-            error={confirmPasswordError}
-            helperText={
-              confirmPasswordError &&
-              // ? password !== confirmPassword
-              "Passwords do not match"
-              // : "Please confirm your password"
-              // : ""
-            }
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            // onBlur={() =>
-            //   setConfirmPasswordError(
-            //     confirmPassword.trim() === "" || password !== confirmPassword
-            //   )
-            // }
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={handleClickShowPassword}
-                    onMouseDown={handleMouseDownPassword}
-                  >
-                    {showPassword ? <VisibilityOff /> : <Visibility />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-          />
-        </Grid>
+          <Grid item xs={12}>
+            <TextField
+              fullWidth
+              value={confirmPassword}
+              label="Confirm Password"
+              variant="outlined"
+              required
+              type={showPassword ? "text" : "password"}
+              error={confirmPasswordError}
+              helperText={
+                confirmPasswordError &&
+                // ? password !== confirmPassword
+                "Passwords do not match"
+                // : "Please confirm your password"
+                // : ""
+              }
+              onChange={(event) => setConfirmPassword(event.target.value)}
+              // onBlur={() =>
+              //   setConfirmPasswordError(
+              //     confirmPassword.trim() === "" || password !== confirmPassword
+              //   )
+              // }
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      onClick={handleClickShowPassword}
+                      onMouseDown={handleMouseDownPassword}
+                    >
+                      {showPassword ? <VisibilityOff /> : <Visibility />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </Grid>
 
-        <Grid item xs={12}>
-          <Typography mb={1} variant="body2">
-            Upload Profile picture
-          </Typography>
-          <input
-            accept="image/*"
-            // style={{ display: "none" }}
-            id="profile-pic-upload"
-            type="file"
-            onChange={(e) => {
-              const imageFile = e.target.files[0];
-              postProfilePic(imageFile);
-              setUiProfilePic(URL.createObjectURL(imageFile));
-            }}
-          />
-          {/* <label htmlFor="profile-pic-upload">
+          <Grid item xs={12}>
+            <Typography mb={1} variant="body2">
+              Upload Profile picture
+            </Typography>
+            <input
+              accept="image/*"
+              // style={{ display: "none" }}
+              id="profile-pic-upload"
+              type="file"
+              onChange={(e) => {
+                const imageFile = e.target.files[0];
+                postProfilePic(imageFile);
+                setUiProfilePic(URL.createObjectURL(imageFile));
+              }}
+            />
+            {/* <label htmlFor="profile-pic-upload">
             <Button variant="contained" component="span">
               Upload Profile Picture
             </Button>
           </label> */}
-          {UiProfilePic && (
-            <Avatar
-              sx={{ width: 56, height: 56, ml: 2, mt: 1 }}
-              src={UiProfilePic}
-            />
-          )}
-        </Grid>
+            {UiProfilePic && (
+              <Avatar
+                sx={{ width: 56, height: 56, ml: 2, mt: 1 }}
+                src={UiProfilePic}
+              />
+            )}
+          </Grid>
 
-        <Grid item xs={12}>
-          <LoadingButton
-            size="small"
-            color="primary"
-            type="submit"
-            fullWidth
-            loading={loading}
-            // loadingPosition="start"
-            // startIcon={<RiUserAddFill />}
-            variant="contained"
-          >
-            <span>Sign Up</span>
-          </LoadingButton>
+          <Grid item xs={12}>
+            <LoadingButton
+              size="small"
+              color="primary"
+              type="submit"
+              fullWidth
+              loading={loading}
+              // loadingPosition="start"
+              // startIcon={<RiUserAddFill />}
+              variant="contained"
+            >
+              <span>Sign Up</span>
+            </LoadingButton>
+          </Grid>
         </Grid>
-      </Grid>
-    </form>
+      </form>
+    </>
   );
 };
 
