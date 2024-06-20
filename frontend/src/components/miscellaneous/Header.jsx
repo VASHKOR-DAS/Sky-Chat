@@ -1,3 +1,4 @@
+import { Person } from "@mui/icons-material";
 import Logout from "@mui/icons-material/Logout";
 import {
   Avatar,
@@ -15,11 +16,8 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import PopupState, { bindMenu, bindTrigger } from "material-ui-popup-state";
 import React, { useState } from "react";
-// import { GrSearch } from "react-icons/gr";
 import { GrMail } from "react-icons/gr";
 import { IoCall, IoSearch } from "react-icons/io5";
-
-import { Person } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
 import { getSender } from "../../config/ChatLogics";

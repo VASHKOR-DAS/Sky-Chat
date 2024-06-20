@@ -27,11 +27,11 @@ const UserNotifyBadge = ({ chat }) => {
   return (
     <Box>
       <Typography fontSize={".7rem"}>{time}</Typography>
-      <Box textAlign={"end"} pr={".5em"}>
-        {filtered?.length > 0 && (
+      {filtered?.length > 0 && (
+        <Box textAlign={"end"} pr={".5em"}>
           <Badge badgeContent={filtered.length} color="secondary" />
-        )}
-      </Box>
+        </Box>
+      )}
     </Box>
   );
 };
