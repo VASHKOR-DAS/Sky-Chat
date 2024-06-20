@@ -25,11 +25,7 @@ const MyChatsUserList = ({ chat }) => {
     <>
       {!chat?.isGroupChat ? (
         <>
-          <Box
-            display={"flex"}
-            justifyContent={"space-between"}
-            alignItems={"center"}
-          >
+          <Box display={"flex"} justifyContent={"space-between"}>
             <Box display={"flex"}>
               <>
                 {getSenderFull(user, chat?.users)?.pic === defaultUserPic ? (
@@ -65,20 +61,15 @@ const MyChatsUserList = ({ chat }) => {
                   </Typography>
                 </Box>
               </>
-              {/* for notification */}
             </Box>
-            <Box pr={".5em"}>
-              <UserNotifyBadge chat={chat} />
-            </Box>
+
+            {/* for notification */}
+            <UserNotifyBadge chat={chat} />
           </Box>
         </>
       ) : (
         // Group chat
-        <Box
-          display={"flex"}
-          justifyContent={"space-between"}
-          alignItems={"center"}
-        >
+        <Box display={"flex"} justifyContent={"space-between"}>
           <>
             <Box display={"flex"}>
               <Avatar
@@ -110,10 +101,9 @@ const MyChatsUserList = ({ chat }) => {
               </Box>
             </Box>
           </>
+
           {/* for notification */}
-          <Box pr={".5em"}>
-            <GroupNotifyBadge chat={chat} />
-          </Box>
+          <GroupNotifyBadge chat={chat} />
         </Box>
       )}
     </>

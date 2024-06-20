@@ -1,7 +1,7 @@
 import { Avatar, Box, Tooltip } from "@mui/material";
 import React from "react";
 import { ChatState } from "../../Context/ChatProvider";
-import { handleFormatTime } from "../../hooks/Functions";
+import { handleFormatDate, handleFormatTime } from "../../hooks/Functions";
 
 const MessageRender = ({ message, index }) => {
   const { user, messages } = ChatState();
@@ -23,8 +23,8 @@ const MessageRender = ({ message, index }) => {
   }
 
   const time = handleFormatTime(message?.createdAt);
-  // const date = handleFormatDate(message?.createdAt);
-  // const timeAndDate = `${time} at ${date}`;
+  const date = handleFormatDate(message?.createdAt);
+  const timeAndDate = `${time} at ${date}`;
 
   return (
     <Box
@@ -57,7 +57,7 @@ const MessageRender = ({ message, index }) => {
         ></Box>
       )}
 
-      <Tooltip title={time} placement={isOwnMessage ? "left" : "right"}>
+      <Tooltip title={timeAndDate} placement={isOwnMessage ? "left" : "right"}>
         <span
           style={{
             background: `${

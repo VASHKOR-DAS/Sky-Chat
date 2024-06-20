@@ -1,7 +1,8 @@
-import { Badge } from "@mui/material";
+import { Badge, Box, Typography } from "@mui/material";
 import React from "react";
 import { ChatState } from "../../Context/ChatProvider";
 import { getSenderFull } from "../../config/ChatLogics";
+import { handleFormatTime } from "../../hooks/Functions";
 
 const UserNotifyBadge = ({ chat }) => {
   const { user, notification } = ChatState();
@@ -15,16 +16,23 @@ const UserNotifyBadge = ({ chat }) => {
     const filteredIsGroupChat = obj?.chat?.isGroupChat;
 
     if (!filteredIsGroupChat) {
-      return filteredUserId === chatUserId;
+      var userNotify = filteredUserId === chatUserId;
+      return userNotify;
     }
+    return userNotify;
   });
 
+  const time = handleFormatTime(chat?.latestMessage?.createdAt);
+
   return (
-    <>
-      {filtered?.length > 0 && (
-        <Badge badgeContent={filtered.length} color="secondary" />
-      )}
-    </>
+    <Box>
+      <Typography fontSize={".7rem"}>{time}</Typography>
+      <Box textAlign={"end"} pr={".5em"}>
+        {filtered?.length > 0 && (
+          <Badge badgeContent={filtered.length} color="secondary" />
+        )}
+      </Box>
+    </Box>
   );
 };
 
