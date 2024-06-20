@@ -13,8 +13,10 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { serverURL } from "../../hooks/serverURL";
+import useTitle from "../../hooks/useTitle";
 
 const SignUp = () => {
+  useTitle("Sign up");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");

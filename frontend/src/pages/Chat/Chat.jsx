@@ -1,8 +1,10 @@
 import { Box } from "@mui/material";
 import ChatBox from "../../components/ChatBox";
 import MyChats from "../../components/MyChats";
+import useTitle from "../../hooks/useTitle";
 
 const Chat = () => {
+  useTitle("Chats");
   return (
     <>
       <Box>

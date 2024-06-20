@@ -13,8 +13,10 @@ import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { ChatState } from "../../Context/ChatProvider";
 import { serverURL } from "../../hooks/serverURL";
+import useTitle from "../../hooks/useTitle";
 
 const Login = () => {
+  useTitle("Login");
   const { setUser } = ChatState();
 
   const [email, setEmail] = useState("");
