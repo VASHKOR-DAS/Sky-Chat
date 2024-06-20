@@ -119,10 +119,9 @@ const MyChats = () => {
         {chats ? (
           <Stack sx={{ overflowY: "scroll" }}>
             {chats.map((chat) => (
-              <Box className="prevent-select">
+              <Box className="prevent-select" key={chat?._id}>
                 {getSenderFull(user, chat?.users) && (
                   <Box
-                    key={chat?._id}
                     onClick={() => setSelectedChat(chat)}
                     color={selectedChat === chat ? "white" : grey[800]}
                     borderRadius={".5rem"}

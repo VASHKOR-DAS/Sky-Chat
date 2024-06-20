@@ -16,6 +16,7 @@ const GroupNotifyBadge = ({ chat }) => {
     if (filteredIsGroupChat) {
       return filteredGroupChatId === chatGroupId;
     }
+    return filtered;
   });
 
   return (

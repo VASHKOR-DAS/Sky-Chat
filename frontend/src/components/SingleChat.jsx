@@ -203,26 +203,12 @@ const SingleChat = () => {
 
             {!selectedChat.isGroupChat ? (
               <>
-                {/* <Box display={"flex"}>
-                  {(selectedChat?.users[0]?.pic ||
-                    selectedChat?.users[1]?.pic === defaultUserPic) && (
-                    <Avatar
-                      style={{
-                        background:
-                          "linear-gradient(to right, #7142e9, #b435f5",
-                      }}
-                    >
-                      <Person color="white" />
-                    </Avatar>
-                  )} */}
                 <Typography
-                  // ml={".5em"}
                   variant="h6"
                   sx={{ fontWeight: "bolder", color: grey[800] }}
                 >
                   {getSender(user, selectedChat.users)}
                 </Typography>
-                {/* </Box> */}
                 <ProfileModel user={getSenderFull(user, selectedChat.users)} />
               </>
             ) : (

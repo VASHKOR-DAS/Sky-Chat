@@ -1,6 +1,7 @@
 import { Avatar, Box, Tooltip } from "@mui/material";
 import React from "react";
 import { ChatState } from "../../Context/ChatProvider";
+import { handleFormatTime } from "../../hooks/Functions";
 
 const MessageRender = ({ message, index }) => {
   const { user, messages } = ChatState();
@@ -20,6 +21,10 @@ const MessageRender = ({ message, index }) => {
   if (message.sender._id === user._id) {
     isOwnMessage = true;
   }
+
+  const time = handleFormatTime(message?.createdAt);
+  // const date = handleFormatDate(message?.createdAt);
+  // const timeAndDate = `${time} at ${date}`;
 
   return (
     <Box
@@ -52,28 +57,30 @@ const MessageRender = ({ message, index }) => {
         ></Box>
       )}
 
-      <span
-        style={{
-          background: `${
-            message.sender._id === user._id
-              ? "linear-gradient(to right, #7142e9, #b435f5"
-              : "#e9eff5"
-          }`,
-          color: `${isOwnMessage && "#FFFF"}`,
-          boxSizing: "content-box",
-          fontSize: ".9rem",
-          padding: ".5em 1em",
-          borderRadius: "1rem",
-          maxWidth: "75%",
-          wordWrap: "break-word",
-          marginTop: ".2em",
+      <Tooltip title={time} placement={isOwnMessage ? "left" : "right"}>
+        <span
+          style={{
+            background: `${
+              message.sender._id === user._id
+                ? "linear-gradient(to right, #7142e9, #b435f5"
+                : "#e9eff5"
+            }`,
+            color: `${isOwnMessage && "#FFFF"}`,
+            boxSizing: "content-box",
+            fontSize: ".9rem",
+            padding: ".5em 1em",
+            borderRadius: "1rem",
+            maxWidth: "75%",
+            wordWrap: "break-word",
+            marginTop: ".2em",
 
-          borderBottomLeftRadius: `${isLast && !isOwnMessage ? "" : "1em"}`,
-          borderBottomRightRadius: `${isLast && isOwnMessage ? "" : "1em"}`,
-        }}
-      >
-        {message.content}
-      </span>
+            borderBottomLeftRadius: `${isLast && !isOwnMessage ? "" : "1em"}`,
+            borderBottomRightRadius: `${isLast && isOwnMessage ? "" : "1em"}`,
+          }}
+        >
+          {message.content}
+        </span>
+      </Tooltip>
     </Box>
   );
 };
