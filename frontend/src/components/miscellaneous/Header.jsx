@@ -1,4 +1,4 @@
-import { Person } from "@mui/icons-material";
+import { Group, Person } from "@mui/icons-material";
 import Logout from "@mui/icons-material/Logout";
 import {
   Avatar,
@@ -20,7 +20,8 @@ import { GrMail } from "react-icons/gr";
 import { IoCall, IoSearch } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 import { ChatState } from "../../Context/ChatProvider";
-import { getSender } from "../../config/ChatLogics";
+import { getSenderFull } from "../../config/ChatLogics";
+import { handleMatchGroupMsg, handleMatchUserMsg } from "../../hooks/Functions";
 import { defaultUserPic } from "../../hooks/GlobalVariable";
 import ProfileModel from "./ProfileModel";
 import SearchFriendsDrawer from "./SearchFriendsDrawer";
@@ -62,6 +63,11 @@ const Header = () => {
     setToggleProfile(style);
   };
   // for Toggle
+
+  const uniqueSender = notification.filter(
+    (obj, index) =>
+      notification.findIndex((item) => item.chat._id === obj.chat._id) === index
+  );
 
   return (
     <>
@@ -109,31 +115,108 @@ const Header = () => {
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuList
-              sx={{ fontSize: ".8rem", p: "0 1em", cursor: "pointer" }}
-              onClick={handleNotificationClose}
-            >
-              {!notification.length && "No New Message"}
+            <MenuList onClick={handleNotificationClose} sx={{ p: 0 }}>
+              {!notification.length && (
+                <Typography
+                  sx={{ fontSize: ".9rem", p: "0 1em", cursor: "pointer" }}
+                >
+                  No New Message
+                </Typography>
+              )}
 
               {/* show notification */}
-              {notification.map((notify) => (
+              {uniqueSender.map((notify) => (
                 <MenuItem
-                  sx={{ fontSize: ".8rem", p: 0 }}
-                  key={notify._id}
+                  sx={{
+                    mb: ".2em",
+                    boxShadow: "0 7px 10px -5px rgba(150,170,180,0.5)",
+
+                    "&: last-child": {
+                      mb: 0,
+                      boxShadow: "none",
+                    },
+                  }}
+                  key={notify?.chat?._id}
                   onClick={() => {
                     // when click a notify its go to chat
-                    setSelectedChat(notify.chat);
+                    setSelectedChat(notify?.chat);
 
                     // when click a notify remove it from array
-                    setNotification(notification.filter((n) => n !== notify));
+                    setNotification(
+                      notification.filter(
+                        (n) => n?.chat?._id !== notify?.chat?._id
+                      )
+                    );
                   }}
                 >
-                  {notify?.chat?.isGroupChat
-                    ? `New Message in ${notify?.chat?.chatName}`
-                    : `New Message from ${getSender(
-                        user,
-                        notify?.chat?.users
-                      )}`}
+                  {notify?.chat?.isGroupChat ? (
+                    <Box
+                      width={"100%"}
+                      display={"flex"}
+                      gap={"2em"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                      pr={".5em"}
+                    >
+                      <Box display={"flex"} alignItems={"center"} gap={".5em"}>
+                        <Avatar
+                          style={{
+                            background:
+                              "linear-gradient(to right, #7142e9, #b435f5",
+                          }}
+                          sx={{ width: 30, height: 30 }}
+                        >
+                          <Group color="white" fontSize="small" />
+                        </Avatar>
+                        <Typography fontSize={".9rem"}>
+                          {notify?.chat?.chatName}
+                        </Typography>
+                      </Box>
+
+                      <Box>
+                        <Badge
+                          badgeContent={
+                            handleMatchGroupMsg(notification, notify?.chat)
+                              .length
+                          }
+                          color="secondary"
+                        />
+                      </Box>
+                    </Box>
+                  ) : (
+                    <Box
+                      width={"100%"}
+                      display={"flex"}
+                      gap={"2em"}
+                      justifyContent={"space-between"}
+                      alignItems={"center"}
+                      pr={".5em"}
+                    >
+                      <Box display={"flex"} alignItems={"center"} gap={".5em"}>
+                        <Avatar
+                          style={{
+                            background:
+                              "linear-gradient(to right, #7142e9, #b435f5",
+                          }}
+                          sx={{ width: 30, height: 30 }}
+                        >
+                          <Person color="white" fontSize="small" />
+                        </Avatar>
+                        <Typography fontSize={".9rem"}>
+                          {getSenderFull(user, notify?.chat?.users)?.name}
+                        </Typography>
+                      </Box>
+                      <Box>
+                        <Badge
+                          badgeContent={
+                            handleMatchUserMsg(user, notification, notify?.chat)
+                              .length
+                          }
+                          color="secondary"
+                        />
+                      </Box>
+                    </Box>
+                  )}
                 </MenuItem>
               ))}
             </MenuList>

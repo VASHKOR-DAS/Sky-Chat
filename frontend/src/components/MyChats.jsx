@@ -24,6 +24,8 @@ const MyChats = () => {
     chats,
     setChats,
     fetchChatAgain,
+    notification,
+    setNotification,
   } = ChatState();
 
   const fetchChats = async () => {
@@ -48,9 +50,16 @@ const MyChats = () => {
     // eslint-disable-next-line
   }, [fetchChatAgain]);
 
+  // onClick remove notify
+  const handleRemoveNotify = (chat) => {
+    const filtered = notification.filter((n) => n.chat._id !== chat._id);
+    setNotification(filtered);
+  };
+
   return (
     //My Chat Header
     <Box
+      className="prevent-select"
       sx={{
         display: {
           xs: selectedChat ? "none" : "flex",
@@ -119,10 +128,13 @@ const MyChats = () => {
         {chats ? (
           <Stack sx={{ overflowY: "scroll" }}>
             {chats.map((chat) => (
-              <Box className="prevent-select" key={chat?._id}>
+              <Box key={chat?._id}>
                 {getSenderFull(user, chat?.users) && (
                   <Box
-                    onClick={() => setSelectedChat(chat)}
+                    onClick={() => {
+                      setSelectedChat(chat);
+                      handleRemoveNotify(chat);
+                    }}
                     color={selectedChat === chat ? "white" : grey[800]}
                     borderRadius={".5rem"}
                     p={".5rem"}
