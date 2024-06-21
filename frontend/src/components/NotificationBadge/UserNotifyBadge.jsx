@@ -6,11 +6,12 @@ import { handleFormatTime, handleMatchUserMsg } from "../../hooks/Functions";
 const UserNotifyBadge = ({ chat }) => {
   const { user, notification } = ChatState();
 
-  const time = handleFormatTime(chat?.latestMessage?.createdAt);
+  const selectTime = chat?.latestMessage?.createdAt;
+  const time = handleFormatTime(selectTime);
 
   return (
     <Box>
-      <Typography fontSize={".7rem"}>{time}</Typography>
+      {selectTime && <Typography fontSize={".7rem"}>{time}</Typography>}
       {handleMatchUserMsg(user, notification, chat)?.length > 0 && (
         <Box textAlign={"end"} pr={".5em"}>
           <Badge

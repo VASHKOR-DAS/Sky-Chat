@@ -10,7 +10,7 @@ export const handleFormatTime = (timeStamp) => {
         hour12: true,
     };
 
-    const time = new Date(timeStamp).toLocaleTimeString("en-US", optionsTime);
+    const time = new Date(timeStamp)?.toLocaleTimeString("en-US", optionsTime);
     return time;
 };
 
@@ -28,7 +28,7 @@ export const handleFormatDate = (dateStamp) => {
 
     // "en-GB" return DD MM YYYY
     // "en-US" return MM DD, YYYY 
-    const date = new Date(dateStamp).toLocaleString("en-gb", optionsDate);
+    const date = new Date(dateStamp)?.toLocaleString("en-gb", optionsDate);
     return date;
 };
 
