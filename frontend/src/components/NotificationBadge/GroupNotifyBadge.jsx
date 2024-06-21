@@ -6,11 +6,12 @@ import { handleFormatTime, handleMatchGroupMsg } from "../../hooks/Functions";
 const GroupNotifyBadge = ({ chat }) => {
   const { notification } = ChatState();
 
-  const time = handleFormatTime(chat?.latestMessage?.createdAt);
+  const selectTime = chat?.latestMessage?.createdAt;
+  const time = handleFormatTime(selectTime);
 
   return (
     <Box>
-      <Typography fontSize={".7rem"}>{time}</Typography>
+      {selectTime && <Typography fontSize={".7rem"}>{time}</Typography>}
       {handleMatchGroupMsg(notification, chat)?.length > 0 && (
         <Box textAlign={"end"} pr={".5em"}>
           <Badge
