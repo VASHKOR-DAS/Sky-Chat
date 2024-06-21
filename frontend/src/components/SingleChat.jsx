@@ -19,6 +19,7 @@ import "@dotlottie/player-component";
 import io from "socket.io-client";
 import { ChatState } from "../Context/ChatProvider";
 import { getSender, getSenderFull } from "../config/ChatLogics";
+import { fetchChats } from "../hooks/Functions";
 import { serverURL } from "../hooks/serverURL";
 import ScrollableChat from "./ScrollableChat";
 import ProfileModel from "./miscellaneous/ProfileModel";
@@ -40,6 +41,7 @@ var socket, selectedChatCompare;
 const SingleChat = () => {
   const {
     user,
+    setChats,
     selectedChat,
     setSelectedChat,
     newMessage,
@@ -148,6 +150,7 @@ const SingleChat = () => {
       setLoading(false);
       socket.emit("new message", data);
       setMessages([...messages, data]); //data append in message (State)
+      fetchChats(user, setChats);
     } catch (error) {}
   };
 

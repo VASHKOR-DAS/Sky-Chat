@@ -48,7 +48,7 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
   const [renameLoading, setRenameLoading] = useState();
 
   const handleSearch = async (query) => {
-    console.log("query", query);
+    // console.log("query", query);
 
     try {
       setLoading(true);
@@ -64,7 +64,7 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
         config
       );
 
-      console.log("data", data);
+      // console.log("data", data);
       setLoading(false);
       setSearchResult(data);
     } catch (error) {
@@ -204,7 +204,7 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
               <Box sx={{ display: "flex", width: "100%", flexWrap: "wrap" }}>
                 {selectedChat.users.map((u) => (
                   <UserBadgeItem
-                    key={user._id}
+                    key={u._id}
                     groupUser={u}
                     handleFunction={() => handleRemove(u)}
                   />
@@ -257,9 +257,8 @@ const UpdateGroupChatModel = ({ fetchMessages }) => {
                   <Box textAlign={"center"}>Loading...</Box>
                 ) : (
                   searchResult?.map((user) => (
-                    <Box sx={{ pb: 0.5 }}>
+                    <Box key={user._id} sx={{ pb: 0.5 }}>
                       <UserListItem
-                        key={user._id}
                         user={user}
                         handleFunction={() => handleAddUser(user)}
                       />

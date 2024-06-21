@@ -1,12 +1,11 @@
 import { Add } from "@mui/icons-material";
 import { Box, Stack, Tooltip, Typography } from "@mui/material";
 import { grey } from "@mui/material/colors";
-import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import { ChatState } from "../Context/ChatProvider";
 import { getSenderFull } from "../config/ChatLogics";
-import { serverURL } from "../hooks/serverURL";
+import { fetchChats } from "../hooks/Functions";
 import ChatLoading from "./ChatLoading";
 import "./MyChats.css";
 import MyChatsUserList from "./MyChatsUserList";
@@ -29,26 +28,9 @@ const MyChats = () => {
     setNotification,
   } = ChatState();
 
-  const fetchChats = async () => {
-    try {
-      const config = {
-        headers: {
-          Authorization: `Bearer ${user.token}`,
-        },
-      };
-
-      const { data } = await axios.get(`${serverURL}/api/chat`, config);
-
-      setChats(data);
-    } catch (error) {
-      // alert("Failed to load the chat");
-      toast.error("Failed to load the chat !");
-    }
-  };
-
   //When leave a group chat (fetchChatAgain) this func call again
   useEffect(() => {
-    fetchChats();
+    fetchChats(user, setChats);
     // eslint-disable-next-line
   }, [fetchChatAgain]);
 

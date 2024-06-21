@@ -1,4 +1,7 @@
+import axios from "axios";
+import { toast } from "react-toastify";
 import { getSenderFull } from "../config/ChatLogics";
+import { serverURL } from "./serverURL";
 // Time Formate
 
 
@@ -69,4 +72,22 @@ export const handleMatchGroupMsg = (notification, chat) => {
         }
         return groupNotify;
     });
+};
+
+
+export const fetchChats = async (user, setChats) => {
+    try {
+        const config = {
+            headers: {
+                Authorization: `Bearer ${user.token}`,
+            },
+        };
+
+        const { data } = await axios.get(`${serverURL}/api/chat`, config);
+
+        setChats(data);
+    } catch (error) {
+        // alert("Failed to load the chat");
+        toast.error("Failed to load the chat !");
+    }
 };

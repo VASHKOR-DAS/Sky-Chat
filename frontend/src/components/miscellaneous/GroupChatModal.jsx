@@ -39,7 +39,7 @@ const GroupChatModal = ({ open, setOpen, handleOpen }) => {
   const { user, chats, setChats } = ChatState();
 
   const handleSearch = async (query) => {
-    console.log("query", query);
+    // console.log("query", query);
 
     try {
       setLoading(true);
@@ -166,9 +166,8 @@ const GroupChatModal = ({ open, setOpen, handleOpen }) => {
                   <Box textAlign={"center"}>Loading...</Box>
                 ) : (
                   searchResult?.map((user) => (
-                    <Box sx={{ pb: 0.5 }}>
+                    <Box key={user._id} sx={{ pb: 0.5 }}>
                       <UserListItem
-                        key={user._id}
                         user={user}
                         handleFunction={() => handleGroup(user)}
                       />
