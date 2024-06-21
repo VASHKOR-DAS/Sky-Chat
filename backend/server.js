@@ -4,7 +4,7 @@ const cors = require('cors');
 require('dotenv').config();
 
 // for fronted server
-const frontendOrigin = "https://sky-chat.onrender.com";
+const frontendOrigin = "http://sky-chat.onrender.com";
 
 // const { chats } = require("./data/data"); // fakeDate
 // const { notFound, errorHandler } = require('./middleware/errorMiddleware');

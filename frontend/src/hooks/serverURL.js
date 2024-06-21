@@ -1,1 +1,1 @@
-export const serverURL = "https://sky-chat-backend.onrender.com";
+export const serverURL = "http://sky-chat-backend.onrender.com";
